@@ -1,0 +1,11 @@
+home:
+  path: /
+  defaults: { _controller: 'TerraMonitoring\Web\Controller\AppController::homeAction' }
+
+hello:
+  path: /hello/{name}
+  defaults: { _controller: 'TerraMonitoring\Web\Controller\AppController::helloAction' }
+
+blog:
+  prefix: /stats
+  resource: routes_stats.yml

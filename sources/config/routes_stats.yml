@@ -1,0 +1,3 @@
+stats.home:
+  path:     /
+  defaults: { _controller: 'TerraMonitoring\Web\Controller\StatsController::index' }

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "891ff9971c464f2c97747574d3f6ad8b",
-    "content-hash": "752c28e30567bd8c616a12fea59d134e",
+    "hash": "3d2fae8e5439a83c385c485dc859e946",
+    "content-hash": "b6ee60f53c7a22ddbb2c9075b0a6031b",
     "packages": [
         {
             "name": "pimple/pimple",
@@ -167,6 +167,53 @@
                 "microframework"
             ],
             "time": "2016-01-06 14:59:35"
+        },
+        {
+            "name": "sorien/silex-pimple-dumper",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Sorien/silex-pimple-dumper.git",
+                "reference": "8ea2d5b7090cb37d5f863c6249ce2b726ce7ec89"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Sorien/silex-pimple-dumper/zipball/8ea2d5b7090cb37d5f863c6249ce2b726ce7ec89",
+                "reference": "8ea2d5b7090cb37d5f863c6249ce2b726ce7ec89",
+                "shasum": ""
+            },
+            "require-dev": {
+                "silex/silex": "~2.0@dev"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Sorien\\Provider\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stanislav Turza",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Pimple File Dumper - Helper Provider for Silex Idea Plugin",
+            "keywords": [
+                "dumper",
+                "idea",
+                "plugin",
+                "silex"
+            ],
+            "time": "2016-01-05 08:31:24"
         },
         {
             "name": "symfony/config",
@@ -1801,7 +1848,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "sorien/silex-pimple-dumper": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

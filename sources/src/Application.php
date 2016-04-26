@@ -2,18 +2,30 @@
 
 namespace TerraMonitoring\Web;
 
+use Basster\Silex\Provider\Swagger\SwaggerProvider;
 use Silex\Application as Silex;
 use Silex\Provider\ServiceControllerServiceProvider;
 use Sorien\Provider\PimpleDumpProvider;
+use SwaggerUI\Silex\Provider\SwaggerUIServiceProvider;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * @package TerraMonitoring\Web
+ * @SWG\Info(title="My First API", version="0.1")
+ */
+
+/**
+ * @SWG\Get(
+ *     path="/v1/resource.json",
+ *     @SWG\Response(response="200", description="An example resource")
+ * )
+ */
 class Application extends Silex {
 
     public function __construct(array $values = [])
     {
         parent::__construct($values);
         $this->setup($this);
-
     }
 
     private function setup($app)
@@ -30,5 +42,13 @@ class Application extends Silex {
         });
         // Register Pimple Dump Provider for IntelliJ auto complete on DI container.
         $this->register(new PimpleDumpProvider());
+        // Set up swagger ui service for viewing the swagger docs
+        $app->register(new SwaggerUIServiceProvider(), array(
+            'swaggerui.path'       => '/v1/swagger',
+            'swaggerui.apiDocPath' => '/v1/docs'
+        ));
+        $this->register(new SwaggerProvider(), [
+            "swagger.servicePath" => __DIR__ . "",
+        ]);
     }
 }

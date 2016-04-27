@@ -10,8 +10,10 @@
         "silex/silex": "^1.3",
         "symfony/config": "^3.0",
         "sorien/silex-pimple-dumper": "~2.0@dev",
-	"kbrabrand/silex-swagger-ui": "dev-master",
-        "basster/silex-simple-swagger-provider": "^1.0"
+	    "kbrabrand/silex-swagger-ui": "dev-master",
+        "basster/silex-simple-swagger-provider": "^1.0",
+        "doctrine/dbal": "~2.2",
+        "bocharsky-bw/arrayzy": "^0.5.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.1"

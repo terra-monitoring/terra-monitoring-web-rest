@@ -19,3 +19,4 @@ coverage/
 Vagrantfile
 *.iml
 pimple.json
+app.db

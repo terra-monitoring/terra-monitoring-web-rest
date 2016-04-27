@@ -8,7 +8,7 @@ use Symfony\Component\Routing\RouteCollection;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$app = new \TerraMonitoring\Web\Application();
+$app = new TerraMonitoring\Web\Application();
 
 $app['routes'] = $app->extend('routes', function (RouteCollection $routes, Application $app) {
     $loader     = new YamlFileLoader(new FileLocator(__DIR__ . '/../config'));

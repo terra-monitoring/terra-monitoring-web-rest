@@ -4,10 +4,14 @@ namespace TerraMonitoring\Web;
 
 use Basster\Silex\Provider\Swagger\SwaggerProvider;
 use Silex\Application as Silex;
+use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\ServiceControllerServiceProvider;
 use Sorien\Provider\PimpleDumpProvider;
+use Swagger\Annotations as SWG;
 use SwaggerUI\Silex\Provider\SwaggerUIServiceProvider;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
+use TerraMonitoring\Web\Animal\AnimalServiceProvider;
 
 /**
  * @package TerraMonitoring\Web
@@ -42,13 +46,26 @@ class Application extends Silex {
         });
         // Register Pimple Dump Provider for IntelliJ auto complete on DI container.
         $this->register(new PimpleDumpProvider());
+        $this->register(new SwaggerProvider(), [
+            "swagger.servicePath" => __DIR__ . "",
+        ]);
         // Set up swagger ui service for viewing the swagger docs
         $app->register(new SwaggerUIServiceProvider(), array(
             'swaggerui.path'       => '/v1/swagger',
             'swaggerui.apiDocPath' => '/v1/docs'
         ));
-        $this->register(new SwaggerProvider(), [
-            "swagger.servicePath" => __DIR__ . "",
-        ]);
+        $app->register(new DoctrineServiceProvider(), array(
+            'db.options' => array(
+                'driver' => 'pdo_sqlite',
+                'path' => __DIR__ . '/app.db',
+            ),
+        ));
+
+        $app['databaseSetup'] = $app->share(function() use ($app) {
+            // Retrieve the db instance and create an instance of myClass
+            return new DatabaseSetup($app['db']);
+        });
+
+        $this->register(new AnimalServiceProvider() );
     }
 }

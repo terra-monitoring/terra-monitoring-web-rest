@@ -3,6 +3,7 @@
 namespace TerraMonitoring\Web;
 
 use Basster\Silex\Provider\Swagger\SwaggerProvider;
+use Basster\Silex\Provider\Swagger\SwaggerServiceKey;
 use Silex\Application as Silex;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\ServiceControllerServiceProvider;
@@ -34,6 +35,7 @@ class Application extends Silex {
 
     private function setup($app)
     {
+        $app['base_path'] = __DIR__;
         // Set debug mode
         $this["debug"] = true;
         $this->register(new ServiceControllerServiceProvider());
@@ -47,12 +49,13 @@ class Application extends Silex {
         // Register Pimple Dump Provider for IntelliJ auto complete on DI container.
         $this->register(new PimpleDumpProvider());
         $this->register(new SwaggerProvider(), [
-            "swagger.servicePath" => __DIR__ . "",
+            SwaggerServiceKey::SWAGGER_SERVICE_PATH => $app['base_path'],
+            SwaggerServiceKey::SWAGGER_API_DOC_PATH => '/docs/swagger.json',
         ]);
         // Set up swagger ui service for viewing the swagger docs
         $app->register(new SwaggerUIServiceProvider(), array(
-            'swaggerui.path'       => '/v1/swagger',
-            'swaggerui.apiDocPath' => '/v1/docs'
+            'swaggerui.path' => '/docs/swagger',
+            'swaggerui.docs' => '/docs/swagger.json',
         ));
         $app->register(new DoctrineServiceProvider(), array(
             'db.options' => array(
@@ -60,7 +63,6 @@ class Application extends Silex {
                 'path' => __DIR__ . '/einstein.db',
             ),
         ));
-
         $app['databaseSetup'] = $app->share(function() use ($app) {
             // Retrieve the db instance and create an instance of myClass
             return new DatabaseSetup($app['db']);

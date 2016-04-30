@@ -6,20 +6,20 @@
  * Time: 20:19
  */
 
-namespace TerraMonitoring\Web\Animal;
+namespace TerraMonitoring\Web\Fuetterung;
 
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
-class AnimalServiceProvider implements ServiceProviderInterface
+class FuetterungServiceProvider implements ServiceProviderInterface
 {
     /** {@inheritdoc} */
     public function register(Application $app)
     {
-        $app['service.animal'] = $app->share(function () use ($app) {
-            return new AnimalService($app['db']);
+        $app['service.fuetterung'] = $app->share(function () use ($app) {
+            return new FuetterungService($app['db']);
         });
-        $app->mount('/animal', new AnimalRoutesProvider());
+        $app->mount('/fuetterung', new FuetterungRoutesProvider());
     }
     /** {@inheritdoc} */
     public function boot(Application $app)

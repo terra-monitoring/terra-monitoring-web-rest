@@ -11,7 +11,7 @@ use Swagger\Annotations as SWG;
 use SwaggerUI\Silex\Provider\SwaggerUIServiceProvider;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
-use TerraMonitoring\Web\Animal\AnimalServiceProvider;
+use TerraMonitoring\Web\Fuetterung\FuetterungServiceProvider;
 
 /**
  * @package TerraMonitoring\Web
@@ -57,7 +57,7 @@ class Application extends Silex {
         $app->register(new DoctrineServiceProvider(), array(
             'db.options' => array(
                 'driver' => 'pdo_sqlite',
-                'path' => __DIR__ . '/app.db',
+                'path' => __DIR__ . '/einstein.db',
             ),
         ));
 
@@ -66,6 +66,6 @@ class Application extends Silex {
             return new DatabaseSetup($app['db']);
         });
 
-        $this->register(new AnimalServiceProvider() );
+        $this->register(new FuetterungServiceProvider() );
     }
 }

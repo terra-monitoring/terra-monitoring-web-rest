@@ -61,13 +61,13 @@ class FuetterungService
         $row = $this->db->fetchAssoc("SELECT * FROM fuetterung WHERE date = '$date';");
 
         //print_r($row);
-            $fuetterungObj = new Fuetterung($row['date']);
-            $fuetterungObj->setFutterId($row['futter_id']);
-            $fuetterungObj->setMenge($row['menge']);
-            $fuetterungObj->setVitamin($row['vitamin']);
-            $fuetterungObj->setCalcium($row['calcium']);
-            $fuetterungObj->setFastentag($row['fastentag']);
-            $fuetterungObj->setBemerkung($row['bemerkung']);
+        $fuetterungObj = new Fuetterung($row['date']);
+        $fuetterungObj->setFutterId($row['futter_id']);
+        $fuetterungObj->setMenge($row['menge']);
+        $fuetterungObj->setVitamin($row['vitamin']);
+        $fuetterungObj->setCalcium($row['calcium']);
+        $fuetterungObj->setFastentag($row['fastentag']);
+        $fuetterungObj->setBemerkung($row['bemerkung']);
 
         return new JsonResponse($fuetterungObj);
     }
@@ -80,13 +80,21 @@ class FuetterungService
      */
     public function create(Request $request)
     {
-        //$keys=  $request->request->
+
         $fuetterung = $request->request->all();
-        print_r($fuetterung);
+
         $this->db->insert("fuetterung",$fuetterung);
 
-        return new JsonResponse(new Fuetterung($request->request->get('id', 0)),
-            201);
+        $fuetterungObj = new Fuetterung($fuetterung['date']);
+        $fuetterungObj->setFutterId($fuetterung['futter_id']);
+        $fuetterungObj->setMenge($fuetterung['menge']);
+        $fuetterungObj->setVitamin($fuetterung['vitamin']);
+        $fuetterungObj->setCalcium($fuetterung['calcium']);
+        $fuetterungObj->setFastentag($fuetterung['fastentag']);
+        $fuetterungObj->setBemerkung($fuetterung['bemerkung']);
+
+
+        return new JsonResponse($fuetterungObj,201);
     }
     /**
      * PUT /animal/{animalId}

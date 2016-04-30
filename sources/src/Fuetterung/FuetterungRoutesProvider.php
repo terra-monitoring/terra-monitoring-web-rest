@@ -50,13 +50,13 @@ class FuetterungRoutesProvider implements ControllerProviderInterface
         /**
          * @SWG\Post(
          *     tags={"fuetterung"},
-         *     path="/fuetterung",
+         *     path="/fuetterung/",
          *     @SWG\Parameter(name="fuetterung", in="body", @SWG\Schema(ref="#/definitions/fuetterung")),
          *     @SWG\Response(
          *             response="201",
          *             description="neuer Fütterungseintrag"
          *     )
-         * )
+         * ))
          */
         $controllers->post('', 'service.fuetterung:create');
         /**

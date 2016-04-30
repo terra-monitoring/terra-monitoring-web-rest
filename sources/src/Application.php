@@ -10,7 +10,6 @@ use Silex\Provider\ServiceControllerServiceProvider;
 use Sorien\Provider\PimpleDumpProvider;
 use Swagger\Annotations as SWG;
 use SwaggerUI\Silex\Provider\SwaggerUIServiceProvider;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use TerraMonitoring\Web\Fuetterung\FuetterungServiceProvider;
 

@@ -56,9 +56,9 @@ class FuetterungService
     /**
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function getDetails($date)
+    public function read($date)
     {
-        $row = $this->db->fetchAssoc("SELECT * FROM fuetterung WHERE date = $date;");
+        $row = $this->db->fetchAssoc("SELECT * FROM fuetterung WHERE date = '$date';");
 
         //print_r($row);
             $fuetterungObj = new Fuetterung($row['date']);
@@ -78,7 +78,7 @@ class FuetterungService
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function createAnimal(Request $request)
+    public function create(Request $request)
     {
         return new JsonResponse(new Fuetterung($request->request->get('id', 0)),
             201);
@@ -90,7 +90,7 @@ class FuetterungService
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function changeAnimal(Request $request)
+    public function change(Request $request)
     {
         $id = $request->request->get('id', 0);
         $newName = $request->request->get('name', "");

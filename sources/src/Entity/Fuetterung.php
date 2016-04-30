@@ -2,22 +2,55 @@
 
 namespace TerraMonitoring\Web\Entity;
 
+use Swagger\Annotations as SWG;
+
 /**
  * Created by IntelliJ IDEA.
  * User: czoeller
  * Date: 27.04.16
  * Time: 17:01
+ *
+ * @SWG\Definition(definition="fuetterung",type="object")
  */
 class Fuetterung implements \JsonSerializable
 {
+    /**
+     * @var String
+     * @SWG\Property(type="string")
+     */
     private $date;
-    private $name;
+    /**
+     * @var Integer
+     * @SWG\Property(type="integer", format="int32")
+     */
     private $futter_id;
+    /**
+     * @var Integer
+     * @SWG\Property(type="integer", format="int32")
+     */
     private $menge;
+    /**
+     * @var Boolean
+     * @SWG\Property(type="boolean")
+     */
     private $vitamin;
+    /**
+     * @var Boolean
+     * @SWG\Property(type="boolean")
+     */
     private $calcium;
+    /**
+     * @var Boolean
+     * @SWG\Property(type="boolean")
+     */
     private $fastentag;
+    /**
+     * @var String
+     * @SWG\Property(type="string")
+     */
     private $bemerkung;
+
+
 
     /**
      * Fuetterung constructor.

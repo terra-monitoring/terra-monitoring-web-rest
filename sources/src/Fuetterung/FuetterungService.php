@@ -80,6 +80,11 @@ class FuetterungService
      */
     public function create(Request $request)
     {
+        //$keys=  $request->request->
+        $fuetterung = $request->request->all();
+        print_r($fuetterung);
+        $this->db->insert("fuetterung",$fuetterung);
+
         return new JsonResponse(new Fuetterung($request->request->get('id', 0)),
             201);
     }

@@ -4,6 +4,10 @@
         {
             "type": "vcs",
             "url": "https://github.com/No3x/silex-pimple-dumper"
+        },
+        {
+            "type": "git",
+            "url": "git@github.com:Ard-Jan/silex-swagger-ui.git"
         }
     ],
     "require": {

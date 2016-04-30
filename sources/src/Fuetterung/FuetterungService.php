@@ -10,9 +10,11 @@ namespace TerraMonitoring\Web\Fuetterung;
 
 
 use Doctrine\DBAL\Connection;
-use TerraMonitoring\Web\Entity\Fuetterung;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use TerraMonitoring\Web\Entity\Fuetterung;
+use Arrayzy\ArrayImitator as A;
 
 class FuetterungService
 {
@@ -38,39 +40,40 @@ class FuetterungService
      */
     public function readAll()
     {
-        $fuetterung = $this->db->fetchAll("SELECT * FROM fuetterung;");
-        $fuetterung_coll = [];
-        foreach ( $fuetterung as $row ) {
-            $fuetterungObj = new Fuetterung($row['date']);
-            $fuetterungObj->setFutterId($row['futter_id']);
-            $fuetterungObj->setMenge($row['menge']);
-            $fuetterungObj->setVitamin($row['vitamin']);
-            $fuetterungObj->setCalcium($row['calcium']);
-            $fuetterungObj->setFastentag($row['fastentag']);
-            $fuetterungObj->setBemerkung($row['bemerkung']);
-            $fuetterung_coll[] = $fuetterungObj;
+        $fuetterungen = $this->db->createQueryBuilder()
+            ->select("*")
+            ->from("fuetterung")
+            ->execute()
+            ->fetchAll();
+
+        $allFuetterungen = [];
+        foreach ( $fuetterungen as $row ) {
+            $allFuetterungen[] = $this->mapToObject($row);
         }
 
-        return new JsonResponse($fuetterung_coll);
+        return new JsonResponse($allFuetterungen);
     }
+
     /**
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function read($date)
     {
-        $row = $this->db->fetchAssoc("SELECT * FROM fuetterung WHERE date = '$date';");
+        $fuetterung = $this->db->createQueryBuilder()
+            ->select("*")
+            ->from("fuetterung")
+            ->where('date = ?')
+            ->setParameter(0, $date)
+            ->execute()
+            ->fetch();
 
-        //print_r($row);
-        $fuetterungObj = new Fuetterung($row['date']);
-        $fuetterungObj->setFutterId($row['futter_id']);
-        $fuetterungObj->setMenge($row['menge']);
-        $fuetterungObj->setVitamin($row['vitamin']);
-        $fuetterungObj->setCalcium($row['calcium']);
-        $fuetterungObj->setFastentag($row['fastentag']);
-        $fuetterungObj->setBemerkung($row['bemerkung']);
+        if(null === $fuetterung) {
+            return new Response("Not Found", 404);
+        }
 
-        return new JsonResponse($fuetterungObj);
+        return new JsonResponse( $this->mapToObject( $fuetterung ) );
     }
+
     /**
      * POST /animal
      *
@@ -80,22 +83,12 @@ class FuetterungService
      */
     public function create(Request $request)
     {
+        $data = $request->request->all();
+        $this->db->insert("fuetterung", $data);
 
-        $fuetterung = $request->request->all();
-
-        $this->db->insert("fuetterung",$fuetterung);
-
-        $fuetterungObj = new Fuetterung($fuetterung['date']);
-        $fuetterungObj->setFutterId($fuetterung['futter_id']);
-        $fuetterungObj->setMenge($fuetterung['menge']);
-        $fuetterungObj->setVitamin($fuetterung['vitamin']);
-        $fuetterungObj->setCalcium($fuetterung['calcium']);
-        $fuetterungObj->setFastentag($fuetterung['fastentag']);
-        $fuetterungObj->setBemerkung($fuetterung['bemerkung']);
-
-
-        return new JsonResponse($fuetterungObj,201);
+        return new JsonResponse( $this->mapToObject(data) , 201);
     }
+
     /**
      * PUT /animal/{animalId}
      *
@@ -110,5 +103,19 @@ class FuetterungService
         $animal = new Fuetterung($id);
         $animal->setName($newName);
         return new JsonResponse($animal);
+    }
+
+    private function mapToObject(array $result)
+     {
+
+         $fuetterungObj = new Fuetterung($result['date']);
+         $fuetterungObj
+             ->setFutterId($result['futter_id'])
+             ->setMenge($result['menge'])
+             ->setVitamin($result['vitamin'])
+             ->setCalcium($result['calcium'])
+             ->setFastentag($result['fastentag'])
+             ->setBemerkung($result['bemerkung']);
+         return $fuetterungObj;
     }
 }

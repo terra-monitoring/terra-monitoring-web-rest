@@ -84,8 +84,7 @@ class FuetterungRoutesProvider implements ControllerProviderInterface
          *         description="geänderter Fütterungseintrag",
          *         @SWG\Schema(ref="#/definitions/fuetterung")
          *     ),
-         *     @SWG\Response(response=400, description="Invalid user supplied"),
-         *     @SWG\Response(response=404, description="User not found")
+         *     @SWG\Response(response=404, description="Fuetterung not found")
          * )
          */
         $controllers->put('/{date}', 'service.fuetterung:update');

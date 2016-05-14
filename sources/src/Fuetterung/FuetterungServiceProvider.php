@@ -16,8 +16,11 @@ class FuetterungServiceProvider implements ServiceProviderInterface
     /** {@inheritdoc} */
     public function register(Application $app)
     {
+        $app['repo.fuetterung'] = $app->share(function (Application $app) {
+            return new FuetterungRepository($app['db']);
+        });
         $app['service.fuetterung'] = $app->share(function () use ($app) {
-            return new FuetterungService($app['db']);
+            return new FuetterungService($app['repo.fuetterung']);
         });
         $app->mount('/fuetterung', new FuetterungRoutesProvider());
     }

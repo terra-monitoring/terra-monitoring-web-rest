@@ -6,12 +6,14 @@ use Basster\Silex\Provider\Swagger\SwaggerProvider;
 use Basster\Silex\Provider\Swagger\SwaggerServiceKey;
 use Silex\Application as Silex;
 use Silex\Provider\DoctrineServiceProvider;
+use Silex\Provider\MonologServiceProvider;
 use Silex\Provider\ServiceControllerServiceProvider;
 use Sorien\Provider\PimpleDumpProvider;
 use Swagger\Annotations as SWG;
 use SwaggerUI\Silex\Provider\SwaggerUIServiceProvider;
 use Symfony\Component\HttpFoundation\Request;
 use TerraMonitoring\Web\Fuetterung\FuetterungServiceProvider;
+use TerraMonitoring\Web\Log\LogServiceProvider;
 
 /**
  * @package TerraMonitoring\Web
@@ -66,7 +68,10 @@ class Application extends Silex {
             // Retrieve the db instance and create an instance of myClass
             return new DatabaseSetup($app['db']);
         });
-
+        $app->register(new MonologServiceProvider(), array(
+            'monolog.logfile' => __DIR__.'/log.log',
+        ));
+        $this->register(new LogServiceProvider());
         $this->register(new FuetterungServiceProvider() );
     }
 }

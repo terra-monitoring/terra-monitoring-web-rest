@@ -10,6 +10,8 @@ namespace TerraMonitoring\Web\Fuetterung;
 
 
 use Doctrine\DBAL\Connection;
+use PDO;
+use Silex\Application;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,7 +50,7 @@ class FuetterungService
 
         $allFuetterungen = [];
         foreach ( $fuetterungen as $row ) {
-            $allFuetterungen[] = $this->mapToObject($row);
+            $allFuetterungen[] = Fuetterung::create($row);
         }
 
         return new JsonResponse($allFuetterungen);
@@ -59,7 +61,7 @@ class FuetterungService
      */
     public function read($date)
     {
-        $fuetterung = $this->db->createQueryBuilder()
+        $data = $this->db->createQueryBuilder()
             ->select("*")
             ->from("fuetterung")
             ->where('date = ?')
@@ -67,16 +69,14 @@ class FuetterungService
             ->execute()
             ->fetch();
 
-        if(null === $fuetterung) {
+        if(null === $data) {
             return new Response("Not Found", 404);
         }
 
-        return new JsonResponse( $this->mapToObject( $fuetterung ) );
+        return new JsonResponse( Fuetterung::create($data) );
     }
 
     /**
-     * POST /animal
-     *
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
@@ -85,37 +85,62 @@ class FuetterungService
     {
         $data = $request->request->all();
         $this->db->insert("fuetterung", $data);
-
-        return new JsonResponse( $this->mapToObject(data) , 201);
+        return new JsonResponse( Fuetterung::create($data) , 201);
     }
 
     /**
-     * PUT /animal/{animalId}
-     *
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function change(Request $request)
+    public function update($date, Request $request)
     {
-        $id = $request->request->get('id', 0);
-        $newName = $request->request->get('name', "");
-        $animal = new Fuetterung($id);
-        $animal->setName($newName);
-        return new JsonResponse($animal);
+        $data = $request->request->all();
+        $fuetterung = Fuetterung::create($data);
+
+        $array = A::create($fuetterung->jsonSerialize());
+        if($array->containsKey('date') ) {
+            unset($array['date']);
+        }
+
+        // create builder
+        $builder = $this->db->createQueryBuilder()
+            ->update('fuetterung')
+        ;
+        // set attributes
+        foreach ( $array as $param => $value ) {
+            $builder->set("$param", ":$param");
+            $builder->setParameter(":$param", $value, $this->getType($param));
+        }
+
+        // set where and exec
+        $builder->where('date = :date')
+            ->setParameter(':date', $date, PDO::PARAM_STR)
+            ->execute()
+        ;
+
+        return new JsonResponse($fuetterung);
     }
 
-    private function mapToObject(array $result)
-     {
-
-         $fuetterungObj = new Fuetterung($result['date']);
-         $fuetterungObj
-             ->setFutterId($result['futter_id'])
-             ->setMenge($result['menge'])
-             ->setVitamin($result['vitamin'])
-             ->setCalcium($result['calcium'])
-             ->setFastentag($result['fastentag'])
-             ->setBemerkung($result['bemerkung']);
-         return $fuetterungObj;
+    private function getType($key)
+    {
+        $type = null;
+        switch ($key) {
+            case "vitamin":
+            case "calcium":
+            case "fastentag":
+                $type = PDO::PARAM_BOOL;
+                break;
+            case "date":
+            case "bemerkung":
+                $type = PDO::PARAM_STR;
+                break;
+            case "futter_id":
+                $type = PDO::PARAM_INT;
+                break;
+            default:
+        }
+        return $type;
     }
+
 }

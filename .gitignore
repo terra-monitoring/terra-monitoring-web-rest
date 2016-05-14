@@ -20,3 +20,4 @@ Vagrantfile
 *.iml
 pimple.json
 *.db
+*.log

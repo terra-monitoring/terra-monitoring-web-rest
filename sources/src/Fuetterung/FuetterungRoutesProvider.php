@@ -28,12 +28,12 @@ class FuetterungRoutesProvider implements ControllerProviderInterface
 
         /**
          * @SWG\Get(
-         *     path="/fuetterung",
+         *     path="/fuetterung/",
          *     tags={"fuetterung"},
          *     @SWG\Response(response="200", description="Alle Fütterungen")
          * )
          */
-        $controllers->get('', 'service.fuetterung:readAll');
+        $controllers->get('/', 'service.fuetterung:readAll');
         /**
          * @SWG\Get(
          *     path="/fuetterung/{date}",
@@ -53,22 +53,39 @@ class FuetterungRoutesProvider implements ControllerProviderInterface
          *     path="/fuetterung/",
          *     @SWG\Parameter(name="fuetterung", in="body", @SWG\Schema(ref="#/definitions/fuetterung")),
          *     @SWG\Response(
-         *             response="201",
-         *             description="neuer Fütterungseintrag"
+         *         response="201",
+         *         description="neuer Fütterungseintrag"
          *     )
          * ))
          */
-        $controllers->post('', 'service.fuetterung:create');
+        $controllers->post('/', 'service.fuetterung:create');
+
         /**
          * @SWG\Put(
          *     tags={"fuetterung"},
          *     path="/fuetterung/{date}",
-         *     @SWG\Parameter(ref="#/parameters/date"),
+         *     @SWG\Parameter(
+         *         name="date",
+         *         in="path",
+         *         description="name that need to be deleted",
+         *         required=true,
+         *         type="string"
+         *     ),
+         *     @SWG\Parameter(
+         *         name="body",
+         *         in="body",
+         *         description="New data",
+         *         required=false,
+         *         @SWG\Schema(ref="#/definitions/fuetterung")
+         *     ),
+         *     @SWG\Schema(ref="#/definitions/fuetterung"),
          *     @SWG\Response(
-         *          response="200",
-         *          description="geänderter Fütterungseintrag",
-         *          @SWG\Schema(ref="#/definitions/fuetterung")
-         *     )
+         *         response="200",
+         *         description="geänderter Fütterungseintrag",
+         *         @SWG\Schema(ref="#/definitions/fuetterung")
+         *     ),
+         *     @SWG\Response(response=400, description="Invalid user supplied"),
+         *     @SWG\Response(response=404, description="User not found")
          * )
          */
         $controllers->put('/{date}', 'service.fuetterung:update');

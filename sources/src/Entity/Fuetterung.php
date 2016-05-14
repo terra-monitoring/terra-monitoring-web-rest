@@ -61,6 +61,18 @@ class Fuetterung implements \JsonSerializable
         $this->date = $date;
     }
 
+    public static function create(array $data) {
+        $fuetterungObj = new Fuetterung($data['date']);
+        $fuetterungObj
+            ->setFutterId($data['futter_id'])
+            ->setMenge($data['menge'])
+            ->setVitamin($data['vitamin'])
+            ->setCalcium($data['calcium'])
+            ->setFastentag($data['fastentag'])
+            ->setBemerkung($data['bemerkung']);
+        return $fuetterungObj;
+    }
+
     /**
      * @return mixed
      */
@@ -129,8 +141,6 @@ class Fuetterung implements \JsonSerializable
         return $this;
     }
 
-
-
     public function jsonSerialize()
     {
         return [
@@ -143,6 +153,4 @@ class Fuetterung implements \JsonSerializable
             'bemerkung' => $this->bemerkung,
         ];
     }
-
-
 }

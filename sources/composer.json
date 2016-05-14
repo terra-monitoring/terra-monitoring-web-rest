@@ -21,7 +21,7 @@
         "monolog/monolog": "^1.19"
     },
     "require-dev": {
-        "phpunit/phpunit": "^5.1"
+        "phpunit/phpunit": "~5.3"
     },
     "license": "MIT",
     "authors": [
@@ -31,7 +31,8 @@
             "name": "Christian Zöller"
         }
     ],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "TerraMonitoring\\Web\\": "src",

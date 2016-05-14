@@ -30,14 +30,6 @@ class FuetterungRepository
 
     function getById($id)
     {
-        $sql = $this->connection->createQueryBuilder()
-            ->select("*")
-            ->from($this->getTableName())
-            ->where('date = :date')
-            ->setParameter(':date', $id)
-            ->getSQL();
-
-
         $data = $this->connection->createQueryBuilder()
             ->select("*")
             ->from($this->getTableName())

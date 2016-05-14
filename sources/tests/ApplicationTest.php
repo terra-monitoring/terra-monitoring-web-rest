@@ -1,8 +1,8 @@
 <?php
 
-namespace HsBremen\WebApi\Tests;
+namespace TerraMonitoring\Web;
 
-use HsBremen\WebApi\Application;
+use TerraMonitoring\Web\Application;
 
 class ApplicationTest extends \PHPUnit_Framework_TestCase {
   /**

@@ -67,14 +67,14 @@ class FuetterungRoutesProvider implements ControllerProviderInterface
          *     @SWG\Parameter(
          *         name="date",
          *         in="path",
-         *         description="name that need to be deleted",
+         *         description="Datensatz für das gewählte Datum welcher geändert werden soll",
          *         required=true,
          *         type="string"
          *     ),
          *     @SWG\Parameter(
          *         name="body",
          *         in="body",
-         *         description="New data",
+         *         description="neue Daten",
          *         required=false,
          *         @SWG\Schema(ref="#/definitions/fuetterung")
          *     ),

@@ -14,6 +14,7 @@ use SwaggerUI\Silex\Provider\SwaggerUIServiceProvider;
 use Symfony\Component\HttpFoundation\Request;
 use TerraMonitoring\Web\Fuetterung\FuetterungServiceProvider;
 use TerraMonitoring\Web\Log\LogServiceProvider;
+use TerraMonitoring\Web\Wachstum\WachstumServiceProvider;
 
 /**
  * @package TerraMonitoring\Web
@@ -73,5 +74,8 @@ class Application extends Silex {
         ));
         $this->register(new LogServiceProvider());
         $this->register(new FuetterungServiceProvider() );
+        $this->register(new WachstumServiceProvider() );
+
+
     }
 }

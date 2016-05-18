@@ -18,6 +18,7 @@ class FuetterungRepositoryTest extends \PHPUnit_Framework_TestCase
     private $db;
     /** @var  FuetterungRepository */
     private $repository;
+    /** @var \Doctrine\DBAL\Query\QueryBuilder|\PHPUnit_Framework_MockObject_MockObject $db */
     private $mockQueryBuilder;
 
     public function setUp()
@@ -31,7 +32,7 @@ class FuetterungRepositoryTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->db->expects($this->once())
+        $this->db
             ->method('createQueryBuilder')
             ->willReturn($this->mockQueryBuilder);
 
@@ -47,7 +48,7 @@ class FuetterungRepositoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function getOrderById()
+    public function getById()
     {
         $date = '2016-05-15';
         $attributes = [
@@ -97,55 +98,90 @@ class FuetterungRepositoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @expectedException \Exception
-     * @expectedExceptionMessage Order with id "1" not exists!
+     * @expectedExceptionMessage Fuetterung with id "2016-05-15" does not exist!
      */
-    public function orderByIdNotFound()
+    public function getByIdNotFound()
     {
-        $this->db->expects(self::once())
-            ->method('fetchAll')
-            ->willReturn([])
+        $statmentMock = self::getMockBuilder('Doctrine\DBAL\Driver\Statement')
+            ->disableOriginalConstructor()
+            ->getMock()
         ;
-        $this->repository->getById(1);
+        $this->mockQueryBuilder->expects(self::once())
+            ->method('select')
+            ->with('*')
+            ->willReturn($this->mockQueryBuilder);
+        $this->mockQueryBuilder->expects(self::once())
+            ->method('from')
+            ->with('fuetterung')
+            ->willReturn($this->mockQueryBuilder);
+        $this->mockQueryBuilder->expects(self::once())
+            ->method('where')
+            ->with('date = :date')
+            ->willReturn($this->mockQueryBuilder);
+        $this->mockQueryBuilder->expects(self::once())
+            ->method('setParameter')
+            ->with(':date', '2016-05-15')
+            ->willReturn($this->mockQueryBuilder);
+        $this->mockQueryBuilder->expects(self::once())
+            ->method('execute')
+            ->willReturn($statmentMock);
+        $statmentMock->expects(self::once())
+            ->method('fetch')
+            ->willReturn(false);
+
+        $this->repository->getById('2016-05-15');
     }
     /**
      * @test
      */
     public function getAllOrders()
     {
-        $sql   = <<<EOS
-SELECT o.* 
-FROM `order` o
-EOS;
-        $order = new Order(1);
-        $order->setStatus('placed');
-        $orders = [
-            ['id' => 1, 'status' => 'placed'],
+        $fuetterungen = [
+            Fuetterung::create(
+                [
+                    'date' => '2016-05-23',
+                    'futter_id' => 2,
+                    'menge' => '50',
+                    'vitamin' => false,
+                    'calcium' => true,
+                    'fastentag' => false,
+                    'bemerkung' => 'gut'
+                ]
+            )->jsonSerialize()
+            ,
+            Fuetterung::create(
+                [
+                    'date' => '2016-05-27',
+                    'futter_id' => 2,
+                    'menge' => '50',
+                    'vitamin' => false,
+                    'calcium' => true,
+                    'fastentag' => false,
+                    'bemerkung' => 'gut'
+                ]
+            )->jsonSerialize()
         ];
-        $this->db->expects(self::once())
+        $statmentMock = self::getMockBuilder('Doctrine\DBAL\Driver\Statement')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+        $this->mockQueryBuilder->expects(self::once())
+            ->method('select')
+            ->with('*')
+            ->willReturn($this->mockQueryBuilder);
+        $this->mockQueryBuilder->expects(self::once())
+            ->method('from')
+            ->with('fuetterung')
+            ->willReturn($this->mockQueryBuilder);
+        $this->mockQueryBuilder->expects(self::once())
+            ->method('execute')
+            ->willReturn($statmentMock);
+        $statmentMock->expects(self::once())
             ->method('fetchAll')
-            ->with($sql)
-            ->willReturn($orders)
+            ->willReturn($fuetterungen);
         ;
         $result = $this->repository->getAll();
-        self::assertEquals($order, $result[0]);
+        self::assertEquals('2016-05-23', $result[0]->getDate());
     }
-    /**
-     * @test
-     */
-    public function insertAnOrder()
-    {
-        $orderData = ['status' => 'placed'];
-        $this->db->expects(self::once())
-            ->method('insert')
-            ->with('order', $orderData)
-        ;
-        $this->db->expects(self::once())
-            ->method('lastInsertId')
-            ->willReturn(1)
-        ;
-        $order = new Order();
-        $order->setStatus('placed');
-        $this->repository->save($order);
-        self::assertEquals(1, $order->getId());
-    }
+    
 }

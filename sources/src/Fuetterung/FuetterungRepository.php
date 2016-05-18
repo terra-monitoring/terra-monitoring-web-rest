@@ -39,13 +39,16 @@ class FuetterungRepository
             ->fetch();
 
         if (false === $data) {
-            return null;
+            throw new \Exception( sprintf("Fuetterung with id \"%s\" does not exist!", $id) );
         }
 
         return Fuetterung::create($data);
 
     }
 
+    /**
+     * @return \TerraMonitoring\Web\Entity\Fuetterung[]
+     */
     function getAll()
     {
         $fuetterungen = $this->connection->createQueryBuilder()

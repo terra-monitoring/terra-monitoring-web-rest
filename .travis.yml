@@ -15,4 +15,7 @@ before_script:
     - composer install
 
 script:
-    - phpunit
+    - phpunit --coverage-clover=clover.xml
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)

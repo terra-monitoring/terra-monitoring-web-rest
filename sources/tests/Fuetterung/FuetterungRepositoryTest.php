@@ -18,12 +18,23 @@ class FuetterungRepositoryTest extends \PHPUnit_Framework_TestCase
     private $db;
     /** @var  FuetterungRepository */
     private $repository;
+    private $mockQueryBuilder;
+
     public function setUp()
     {
         $this->db = self::getMockBuilder('Doctrine\DBAL\Connection')
             ->disableOriginalConstructor()
             ->getMock()
         ;
+
+        $this->mockQueryBuilder = self::getMockBuilder('Doctrine\DBAL\Query\QueryBuilder')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->db->expects($this->once())
+            ->method('createQueryBuilder')
+            ->willReturn($this->mockQueryBuilder);
+
         $this->repository = new FuetterungRepository($this->db);
     }
     /**
@@ -38,16 +49,50 @@ class FuetterungRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function getOrderById()
     {
-        $fuetterung = new Fuetterung('2016-05-15');
-        $orders = [
-            ['id' => 1, 'status' => 'placed'],
+        $date = '2016-05-15';
+        $attributes = [
+            'date' => $date,
+            'futter_id' => 2,
+            'menge' => '50',
+            'vitamin' => false,
+            'calcium' => true,
+            'fastentag' => false,
+            'bemerkung' => 'gut'
         ];
-        $this->db->expects(self::once())
+        $fuetterung = Fuetterung::create($attributes);
+        $fuetterungen = [
+            $attributes
+        ];
+        $statmentMock = self::getMockBuilder('Doctrine\DBAL\Driver\Statement')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $this->mockQueryBuilder->expects(self::once())
+            ->method('select')
+            ->with('*')
+            ->willReturn($this->mockQueryBuilder);
+        $this->mockQueryBuilder->expects(self::once())
             ->method('from')
             ->with('fuetterung')
-            ->willReturn($orders)
-        ;
-        self::assertEquals($fuetterung, $this->repository->getById(1));
+            ->willReturn($this->mockQueryBuilder);
+         $this->mockQueryBuilder->expects(self::once())
+             ->method('where')
+             ->with('date = :date')
+             ->willReturn($this->mockQueryBuilder);
+        $this->mockQueryBuilder->expects(self::once())
+            ->method('setParameter')
+            ->with(':date', '2016-05-15')
+            ->willReturn($this->mockQueryBuilder);
+        $this->mockQueryBuilder->expects(self::once())
+            ->method('execute')
+            ->willReturn($statmentMock);
+        $statmentMock->expects(self::once())
+            ->method('fetch')
+            ->willReturn($fuetterungen[0]);
+
+        $actually = $this->repository->getById($date);
+        self::assertEquals($fuetterung, $actually);
     }
     /**
      * @test

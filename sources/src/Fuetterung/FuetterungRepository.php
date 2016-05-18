@@ -77,7 +77,6 @@ class FuetterungRepository
             $this->update($fuetterung_array);
         } else {
             $this->insert($fuetterung_array);
-
         }
     }
 

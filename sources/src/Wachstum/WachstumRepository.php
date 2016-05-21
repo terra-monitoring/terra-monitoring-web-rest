@@ -67,7 +67,7 @@ class WachstumRepository
         $wachstum_array = $object->jsonSerialize();
 
         $date = (array_key_exists('date', $wachstum_array)
-            && !empty($fuetterung_array['date'] ) ) ? $wachstum_array['date'] : null;
+            && !empty($wachstum_array['date'] ) ) ? $wachstum_array['date'] : null;
         if (null === $date) {
             throw new \Exception("Date of object is not present or invalid.");
         }

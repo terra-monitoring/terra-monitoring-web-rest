@@ -87,7 +87,7 @@ class WachstumRepository
 
     /**
      * Retrieve database type.
-     * @param $key key name.
+     * @param $key string key name.
      * @return int|null PDO::PARAM_* constant|null if not known.
      */
     private function getType($key)
@@ -107,7 +107,7 @@ class WachstumRepository
     private function update($wachstum_array)
     {
         $builder = $this->connection->createQueryBuilder()
-            ->update($this->getTableName());;
+            ->update($this->getTableName());
         $date = $wachstum_array['date'];
 
         // set attributes

@@ -43,7 +43,6 @@ class FuetterungRepository
         }
 
         return Fuetterung::create($data);
-
     }
 
     /**
@@ -86,7 +85,7 @@ class FuetterungRepository
 
     /**
      * Retrieve database type.
-     * @param $key key name.
+     * @param $key string key name.
      * @return int|null PDO::PARAM_* constant|null if not known.
      */
     private function getType($key)
@@ -113,7 +112,7 @@ class FuetterungRepository
     private function update($fuetterung_array)
     {
         $builder = $this->connection->createQueryBuilder()
-            ->update($this->getTableName());;
+            ->update($this->getTableName());
         $date = $fuetterung_array['date'];
 
         // set attributes

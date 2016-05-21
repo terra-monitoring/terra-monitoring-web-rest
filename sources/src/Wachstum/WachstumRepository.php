@@ -39,7 +39,7 @@ class WachstumRepository
             ->fetch();
 
         if (false === $data) {
-            return null;
+            throw new \Exception( sprintf("Wachstum with id \"%s\" does not exist!", $id) );
         }
 
         return Wachstum::create($data);

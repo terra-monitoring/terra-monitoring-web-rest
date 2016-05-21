@@ -6,17 +6,17 @@
  * Time: 23:10
  */
 
-namespace TerraMonitoring\Web\Fuetterung;
+namespace TerraMonitoring\Web\Wachstum;
 
 
 use Doctrine\DBAL\Query\QueryBuilder;
-use TerraMonitoring\Web\Entity\Fuetterung;
+use TerraMonitoring\Web\Entity\Wachstum;
 
-class FuetterungRepositoryTest extends \PHPUnit_Framework_TestCase
+class WachstumRepositoryTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Doctrine\DBAL\Connection|\PHPUnit_Framework_MockObject_MockObject $db */
     private $db;
-    /** @var  FuetterungRepository */
+    /** @var  WachstumRepository */
     private $repository;
     /** @var \Doctrine\DBAL\Query\QueryBuilder|\PHPUnit_Framework_MockObject_MockObject $db */
     private $mockQueryBuilder;
@@ -36,14 +36,14 @@ class FuetterungRepositoryTest extends \PHPUnit_Framework_TestCase
             ->method('createQueryBuilder')
             ->willReturn($this->mockQueryBuilder);
 
-        $this->repository = new FuetterungRepository($this->db);
+        $this->repository = new WachstumRepository($this->db);
     }
     /**
      * @test
      */
     public function shouldReturnTableName()
     {
-        self::assertEquals('fuetterung', $this->repository->getTableName());
+        self::assertEquals('wachstum', $this->repository->getTableName());
     }
     /**
      * @test
@@ -53,15 +53,11 @@ class FuetterungRepositoryTest extends \PHPUnit_Framework_TestCase
         $date = '2016-05-15';
         $attributes = [
             'date' => $date,
-            'futter_id' => 2,
-            'menge' => '50',
-            'vitamin' => false,
-            'calcium' => true,
-            'fastentag' => false,
-            'bemerkung' => 'gut'
+            'gewicht' => 6,
+            'laenge' => 7
         ];
-        $fuetterung = Fuetterung::create($attributes);
-        $fuetterungen = [
+        $wachstum = Wachstum::create($attributes);
+        $wachstums = [
             $attributes
         ];
         $statmentMock = self::getMockBuilder('Doctrine\DBAL\Driver\Statement')
@@ -75,7 +71,7 @@ class FuetterungRepositoryTest extends \PHPUnit_Framework_TestCase
             ->willReturn($this->mockQueryBuilder);
         $this->mockQueryBuilder->expects(self::once())
             ->method('from')
-            ->with('fuetterung')
+            ->with('wachstum')
             ->willReturn($this->mockQueryBuilder);
          $this->mockQueryBuilder->expects(self::once())
              ->method('where')
@@ -90,15 +86,15 @@ class FuetterungRepositoryTest extends \PHPUnit_Framework_TestCase
             ->willReturn($statmentMock);
         $statmentMock->expects(self::once())
             ->method('fetch')
-            ->willReturn($fuetterungen[0]);
+            ->willReturn($wachstums[0]);
 
         $actually = $this->repository->getById($date);
-        self::assertEquals($fuetterung, $actually);
+        self::assertEquals($wachstum, $actually);
     }
     /**
      * @test
      * @expectedException \Exception
-     * @expectedExceptionMessage Fuetterung with id "2016-05-15" does not exist!
+     * @expectedExceptionMessage Wachstum with id "2016-05-15" does not exist!
      */
     public function getByIdNotFound()
     {
@@ -112,7 +108,7 @@ class FuetterungRepositoryTest extends \PHPUnit_Framework_TestCase
             ->willReturn($this->mockQueryBuilder);
         $this->mockQueryBuilder->expects(self::once())
             ->method('from')
-            ->with('fuetterung')
+            ->with('wachstum')
             ->willReturn($this->mockQueryBuilder);
         $this->mockQueryBuilder->expects(self::once())
             ->method('where')
@@ -136,28 +132,20 @@ class FuetterungRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function getAllOrders()
     {
-        $fuetterungen = [
-            Fuetterung::create(
+        $wachtum = [
+            Wachstum::create(
                 [
                     'date' => '2016-05-23',
-                    'futter_id' => 2,
-                    'menge' => '50',
-                    'vitamin' => false,
-                    'calcium' => true,
-                    'fastentag' => false,
-                    'bemerkung' => 'gut'
+                    'gewicht' => 7,
+                    'laenge' => 8
                 ]
             )->jsonSerialize()
             ,
-            Fuetterung::create(
+            Wachstum::create(
                 [
                     'date' => '2016-05-27',
-                    'futter_id' => 2,
-                    'menge' => '50',
-                    'vitamin' => false,
-                    'calcium' => true,
-                    'fastentag' => false,
-                    'bemerkung' => 'gut'
+                    'gewicht' => 7,
+                    'laenge' => 8
                 ]
             )->jsonSerialize()
         ];
@@ -171,14 +159,14 @@ class FuetterungRepositoryTest extends \PHPUnit_Framework_TestCase
             ->willReturn($this->mockQueryBuilder);
         $this->mockQueryBuilder->expects(self::once())
             ->method('from')
-            ->with('fuetterung')
+            ->with('wachstum')
             ->willReturn($this->mockQueryBuilder);
         $this->mockQueryBuilder->expects(self::once())
             ->method('execute')
             ->willReturn($statmentMock);
         $statmentMock->expects(self::once())
             ->method('fetchAll')
-            ->willReturn($fuetterungen);
+            ->willReturn($wachtum);
         ;
         $result = $this->repository->getAll();
         self::assertEquals('2016-05-23', $result[0]->getDate());

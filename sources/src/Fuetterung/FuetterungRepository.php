@@ -69,9 +69,10 @@ class FuetterungRepository
     {
         $fuetterung_array = $object->jsonSerialize();
 
-        $date = (array_key_exists('date', $fuetterung_array)) ? $fuetterung_array['date'] : null;
+        $date = (array_key_exists('date', $fuetterung_array) 
+            && !empty($fuetterung_array['date'] ) ) ? $fuetterung_array['date'] : null;
         if (null === $date) {
-            throw new \Exception("No date passed");
+            throw new \Exception("Date of object is not present or invalid.");
         }
 
         // if no entry with this date it is a new entry

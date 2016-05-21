@@ -134,7 +134,7 @@ class FuetterungRepositoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function getAllOrders()
+    public function getAll()
     {
         $fuetterungen = [
             Fuetterung::create(
@@ -183,5 +183,15 @@ class FuetterungRepositoryTest extends \PHPUnit_Framework_TestCase
         $result = $this->repository->getAll();
         self::assertEquals('2016-05-23', $result[0]->getDate());
     }
-    
+
+    /**
+     * @test
+     * @expectedException \Exception
+     * @expectedExceptionMessage Date of object is not present or invalid.
+     */
+    public function saveWithOutPrimaryKeyFails() {
+        $empty_primary_key_is_invalid = "";
+        $fuetterung = new Fuetterung($empty_primary_key_is_invalid);
+        $this->repository->save($fuetterung);
+    }
 }

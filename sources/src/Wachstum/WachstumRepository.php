@@ -46,6 +46,9 @@ class WachstumRepository
 
     }
 
+    /**
+     * @return \TerraMonitoring\Web\Entity\Wachstum[]
+     */
     function getAll()
     {
         $wachstumArray = $this->connection->createQueryBuilder()

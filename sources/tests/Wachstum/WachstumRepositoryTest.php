@@ -9,7 +9,7 @@
 namespace TerraMonitoring\Web\Wachstum;
 
 
-use Doctrine\DBAL\Query\QueryBuilder;
+
 use TerraMonitoring\Web\Entity\Wachstum;
 
 class WachstumRepositoryTest extends \PHPUnit_Framework_TestCase
@@ -170,6 +170,17 @@ class WachstumRepositoryTest extends \PHPUnit_Framework_TestCase
         ;
         $result = $this->repository->getAll();
         self::assertEquals('2016-05-23', $result[0]->getDate());
+    }
+
+    /**
+     * @test
+     * @expectedException \Exception
+     * @expectedExceptionMessage Date of object is not present or invalid.
+     */
+    public function saveWithOutPrimaryKeyFails() {
+        $empty_primary_key_is_invalid = "";
+        $wachstum = new Wachstum($empty_primary_key_is_invalid);
+        $this->repository->save($wachstum);
     }
     
 }

@@ -9,7 +9,7 @@
 namespace TerraMonitoring\Web\Fuetterung;
 
 
-use Doctrine\DBAL\Query\QueryBuilder;
+
 use TerraMonitoring\Web\Entity\Fuetterung;
 
 class FuetterungRepositoryTest extends \PHPUnit_Framework_TestCase

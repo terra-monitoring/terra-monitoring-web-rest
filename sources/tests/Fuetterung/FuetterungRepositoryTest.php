@@ -183,5 +183,14 @@ class FuetterungRepositoryTest extends \PHPUnit_Framework_TestCase
         $result = $this->repository->getAll();
         self::assertEquals('2016-05-23', $result[0]->getDate());
     }
-    
+
+    /**
+     * @test
+     * @expectedException \Exception
+     * @expectedExceptionMessage Date of object is not present or invalid.
+     */
+    public function saveWithOutPrimaryKeyFails() {
+        $fuetterung = new Fuetterung("");
+        $this->repository->save($fuetterung);
+    }
 }

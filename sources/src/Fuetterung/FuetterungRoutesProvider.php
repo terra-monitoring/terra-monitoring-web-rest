@@ -28,6 +28,16 @@ class FuetterungRoutesProvider implements ControllerProviderInterface
 
         /**
          * @SWG\Get(
+         *     path="/fuetterung/totalConsum",
+         *     tags={"fuetterung"},
+         *     @SWG\Response(response="200", description="Alle Fütterungen")
+         * )
+         */
+        $controllers->get('/totalConsum', 'service.fuetterung:totalConsum');
+
+
+        /**
+         * @SWG\Get(
          *     path="/fuetterung/",
          *     tags={"fuetterung"},
          *     @SWG\Response(response="200", description="Alle Fütterungen")
@@ -88,6 +98,7 @@ class FuetterungRoutesProvider implements ControllerProviderInterface
          * )
          */
         $controllers->put('/{date}', 'service.fuetterung:update');
+
         return $controllers;
     }
 }

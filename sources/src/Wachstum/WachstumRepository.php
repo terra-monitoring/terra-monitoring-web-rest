@@ -141,4 +141,27 @@ class WachstumRepository
 
         $builder->execute();
     }
+
+    /**
+     * Returns the maximum Wachstum by Gewicht.
+     * @return bool|Wachstum Wachstum, false if not found any data
+     */
+    public function getMax()
+    {
+        $builder = $this->connection
+        ->createQueryBuilder()
+        ->select("*")
+        ->from($this->getTableName())
+        ->orderBy("gewicht", "DESC")
+        ->setMaxResults(1)
+        ;
+
+        $data = $builder->execute()->fetch();
+
+        if( false === $data ) {
+            return false;
+        }
+
+        return Wachstum::create($data);
+    }
 }

@@ -4,7 +4,9 @@ namespace TerraMonitoring\Web\Fuetterung;
 
 
 use Doctrine\DBAL\Connection;
+use ocramius\util\Optional;
 use PDO;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use TerraMonitoring\Web\Entity\Fuetterung;
 
 class FuetterungRepository
@@ -145,5 +147,35 @@ class FuetterungRepository
         }
 
         $builder->execute();
+    }
+
+    public function totalConsum() {
+        $builder = $this->connection
+            ->createQueryBuilder()
+            ->select("*")
+            ->from("futter")
+        ;
+
+        $futter_array = $builder->execute()->fetchAll();
+
+        if( false === $futter_array ) {
+            throw new \Exception("No Futter in database.");
+        }
+
+        $futter_mengen = [];
+        foreach ($futter_array as $futter) {
+            $builder = $this->connection
+                ->createQueryBuilder()
+                ->select("sum(menge)")
+                ->from("fuetterung")
+                ->where("futter_id = " . $futter['id'])
+            ;
+            $menge = $builder->execute()->fetch(PDO::FETCH_NUM);
+            if( false !== $menge ) {
+                $futter_mengen[$futter["name"]] = $menge[0];
+            }
+        }
+
+        return $futter_mengen;
     }
 }

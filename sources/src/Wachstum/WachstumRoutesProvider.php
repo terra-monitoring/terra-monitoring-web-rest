@@ -88,6 +88,20 @@ class WachstumRoutesProvider implements ControllerProviderInterface
          * )
          */
         $controllers->put('/{date}', 'service.wachstum:update');
+
+        /**
+         * @SWG\Get(
+         *     path="/wachstum/gewicht/max",
+         *     tags={"wachstum"},
+         *     @SWG\Schema(ref="#/definitions/wachstum"),
+         *     @SWG\Response(
+         *         response="200",
+         *         description="Maximum des Gewichts",
+         *         @SWG\Schema(ref="#/definitions/wachstum")
+         *     )
+         * )
+         */
+        $controllers->get('/gewicht/max', 'service.wachstum:max');
         return $controllers;
     }
 }

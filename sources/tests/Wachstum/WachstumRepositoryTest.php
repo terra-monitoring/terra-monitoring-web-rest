@@ -131,7 +131,7 @@ class WachstumRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function getAllOrders()
     {
-        $wachtum = [
+        $wachstum = [
             Wachstum::create(
                 [
                     'date' => '2016-05-23',
@@ -165,7 +165,7 @@ class WachstumRepositoryTest extends \PHPUnit_Framework_TestCase
             ->willReturn($statmentMock);
         $statmentMock->expects(self::once())
             ->method('fetchAll')
-            ->willReturn($wachtum);
+            ->willReturn($wachstum);
         ;
         $result = $this->repository->getAll();
         self::assertEquals('2016-05-23', $result[0]->getDate());
@@ -181,5 +181,58 @@ class WachstumRepositoryTest extends \PHPUnit_Framework_TestCase
         $wachstum = new Wachstum($empty_primary_key_is_invalid);
         $this->repository->save($wachstum);
     }
-    
+
+    /**
+     * @test
+     */
+    public function testGetMax()
+    {
+        $wachstum = [
+            Wachstum::create(
+                [
+                    'date' => '2016-05-23',
+                    'gewicht' => 22,
+                    'laenge' => 22
+                ]
+            )->jsonSerialize()
+            ,
+            Wachstum::create(
+                [
+                    'date' => '2016-05-27',
+                    'gewicht' => 7,
+                    'laenge' => 8
+                ]
+            )->jsonSerialize()
+        ];
+        $statmentMock = self::getMockBuilder('Doctrine\DBAL\Driver\Statement')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+        $this->mockQueryBuilder->expects(self::once())
+            ->method('select')
+            ->with('*')
+            ->willReturn($this->mockQueryBuilder);
+        $this->mockQueryBuilder->expects(self::once())
+            ->method('from')
+            ->with('wachstum')
+            ->willReturn($this->mockQueryBuilder);
+        $this->mockQueryBuilder->expects(self::once())
+            ->method('orderBy')
+            ->with( "gewicht", "DESC" )
+            ->willReturn($this->mockQueryBuilder);
+        $this->mockQueryBuilder->expects(self::once())
+            ->method('setMaxResults')
+            ->with(1)
+            ->willReturn($this->mockQueryBuilder);
+        $this->mockQueryBuilder->expects(self::once())
+            ->method('execute')
+            ->willReturn($statmentMock);
+        $statmentMock->expects(self::once())
+            ->method('fetch')
+            ->willReturn($wachstum[0]);
+        ;
+
+        $result = $this->repository->getMax();
+        self::assertEquals('2016-05-23', $result->getDate());
+    }
 }

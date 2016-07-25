@@ -88,4 +88,13 @@ class WachstumService
         return new JsonResponse($wachstum);
     }
 
+    public function max() {
+        $max = $this->wachstumRepository->getMax();
+        if ( false === $max ) {
+            throw new Exception('No Max Wachstum found', 404);
+        }
+
+        return new JsonResponse( $max );
+    }
+
 }

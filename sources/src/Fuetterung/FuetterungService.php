@@ -88,4 +88,15 @@ class FuetterungService
         return new JsonResponse($fuetterung);
     }
 
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function totalConsum(Request $request)
+    {
+        return new JsonResponse(
+            $this->fuetterungRepository->totalConsum()
+        );
+    }
 }

@@ -93,8 +93,6 @@ class WachstumRepositoryTest extends \PHPUnit_Framework_TestCase
     }
     /**
      * @test
-     * @expectedException \Exception
-     * @expectedExceptionMessage Wachstum with id "2016-05-15" does not exist!
      */
     public function getByIdNotFound()
     {
@@ -125,7 +123,8 @@ class WachstumRepositoryTest extends \PHPUnit_Framework_TestCase
             ->method('fetch')
             ->willReturn(false);
 
-        $this->repository->getById('2016-05-15');
+        $result = $this->repository->getById('2016-05-15');
+        $this->assertFalse($result, "The object should not be found and the method should return false.");
     }
     /**
      * @test

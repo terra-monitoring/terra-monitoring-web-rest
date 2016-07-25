@@ -10,6 +10,7 @@ namespace TerraMonitoring\Web\Wachstum;
 
 
 use Silex\Application;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -76,7 +77,7 @@ class WachstumService
     public function update($date, Request $request)
     {
         if (null === $this->wachstumRepository->getById($date)) {
-            return new Response('Wachstum not found', 404);
+             throw new Exception('Wachstum not found', 404);
         }
 
         $data = $request->request->all();

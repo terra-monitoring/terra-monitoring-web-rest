@@ -28,6 +28,11 @@ class WachstumRepository
         return 'wachstum';
     }
 
+    /**
+     * Get Wachstum by id.
+     * @param $id
+     * @return bool|\TerraMonitoring\Web\Entity\Wachstum returns Wachstum or false if not exists
+     */
     function getById($id)
     {
         $data = $this->connection->createQueryBuilder()
@@ -39,7 +44,7 @@ class WachstumRepository
             ->fetch();
 
         if (false === $data) {
-            throw new \Exception( sprintf("Wachstum with id \"%s\" does not exist!", $id) );
+            return false;
         }
 
         return Wachstum::create($data);
@@ -76,7 +81,7 @@ class WachstumRepository
         }
 
         // if no entry with this date it is a new entry
-        $update_instead_insert_mode = (null === $this->getById($date)) ? false : true;
+        $update_instead_insert_mode = (false === $this->getById($date)) ? false : true;
         if ($update_instead_insert_mode) {
             $this->update($wachstum_array);
         } else {

@@ -10,7 +10,7 @@ use TerraMonitoring\Web\Entity\Fuetterung;
 class FuetterungRepository
 {
 
-    /** @var  Connection */
+    /** @var Connection */
     private $connection;
 
     /**
@@ -28,6 +28,11 @@ class FuetterungRepository
         return 'fuetterung';
     }
 
+    /**
+     * Get Fuetterung by id.
+     * @param $id
+     * @return bool|\TerraMonitoring\Web\Entity\Fuetterung returns Fuetterung or false if not exists
+     */
     function getById($id)
     {
         $data = $this->connection->createQueryBuilder()
@@ -39,7 +44,7 @@ class FuetterungRepository
             ->fetch();
 
         if (false === $data) {
-            throw new \Exception( sprintf("Fuetterung with id \"%s\" does not exist!", $id) );
+            return false;
         }
 
         return Fuetterung::create($data);
@@ -68,14 +73,14 @@ class FuetterungRepository
     {
         $fuetterung_array = $object->jsonSerialize();
 
-        $date = (array_key_exists('date', $fuetterung_array) 
+        $date = (array_key_exists('date', $fuetterung_array)
             && !empty($fuetterung_array['date'] ) ) ? $fuetterung_array['date'] : null;
         if (null === $date) {
             throw new \Exception("Date of object is not present or invalid.");
         }
 
-        // if no entry with this date it is a new entry
-        $update_instead_insert_mode = (null === $this->getById($date)) ? false : true;
+        // if no entry with this date exists it is a new entry
+        $update_instead_insert_mode = (false === $this->getById($date)) ? false : true;
         if ($update_instead_insert_mode) {
             $this->update($fuetterung_array);
         } else {

@@ -10,6 +10,7 @@ namespace TerraMonitoring\Web\Fuetterung;
 
 
 use Silex\Application;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -75,8 +76,8 @@ class FuetterungService
      */
     public function update($date, Request $request)
     {
-        if (null === $this->fuetterungRepository->getById($date)) {
-            return new Response('Fuetterung not found', 404);
+        if (false === $this->fuetterungRepository->getById($date)) {
+            throw new Exception('Fuetterung not found', 404);
         }
 
         $data = $request->request->all();

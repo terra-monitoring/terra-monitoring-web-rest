@@ -12,6 +12,7 @@ use Sorien\Provider\PimpleDumpProvider;
 use Swagger\Annotations as SWG;
 use SwaggerUI\Silex\Provider\SwaggerUIServiceProvider;
 use Symfony\Component\HttpFoundation\Request;
+use TerraMonitoring\Web\Error\ErrorProvider;
 use TerraMonitoring\Web\Fuetterung\FuetterungServiceProvider;
 use TerraMonitoring\Web\Log\LogServiceProvider;
 use TerraMonitoring\Web\Wachstum\WachstumServiceProvider;
@@ -75,7 +76,7 @@ class Application extends Silex {
         $this->register(new LogServiceProvider());
         $this->register(new FuetterungServiceProvider() );
         $this->register(new WachstumServiceProvider() );
-
+        $this->register(new ErrorProvider());
 
     }
 }

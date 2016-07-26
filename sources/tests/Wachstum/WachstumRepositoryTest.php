@@ -10,6 +10,7 @@ namespace TerraMonitoring\Web\Wachstum;
 
 
 
+use PDO;
 use TerraMonitoring\Web\Entity\Wachstum;
 
 class WachstumRepositoryTest extends \PHPUnit_Framework_TestCase
@@ -234,5 +235,23 @@ class WachstumRepositoryTest extends \PHPUnit_Framework_TestCase
 
         $result = $this->repository->getMax();
         self::assertEquals('2016-05-23', $result->getDate());
+    }
+
+    /**
+     * @test
+     * @dataProvider typesData
+     */
+    public function getType($type, $expected) {
+        $actual = $this->repository->getType($type);
+        $this->assertEquals($actual, $expected);
+    }
+
+    public function typesData() {
+        return [
+            array("gewicht", PDO::PARAM_STR),
+            array("laenge", PDO::PARAM_STR),
+            array("date", PDO::PARAM_STR),
+            array("invalid_attribute", null)
+        ];
     }
 }

@@ -10,6 +10,7 @@ namespace TerraMonitoring\Web\Fuetterung;
 
 
 
+use PDO;
 use TerraMonitoring\Web\Entity\Fuetterung;
 
 class FuetterungRepositoryTest extends \PHPUnit_Framework_TestCase
@@ -192,5 +193,26 @@ class FuetterungRepositoryTest extends \PHPUnit_Framework_TestCase
         $empty_primary_key_is_invalid = "";
         $fuetterung = new Fuetterung($empty_primary_key_is_invalid);
         $this->repository->save($fuetterung);
+    }
+
+    /**
+     * @test
+     * @dataProvider typesData
+     */
+    public function getType($type, $expected) {
+        $actual = $this->repository->getType($type);
+        $this->assertEquals($actual, $expected);
+    }
+
+    public function typesData() {
+        return [
+            array("vitamin", PDO::PARAM_BOOL),
+            array("calcium", PDO::PARAM_BOOL),
+            array("fastentag", PDO::PARAM_BOOL),
+            array("date", PDO::PARAM_STR),
+            array("bemerkung", PDO::PARAM_STR),
+            array("futter_id", PDO::PARAM_INT),
+            array("invalid_attribute", null)
+        ];
     }
 }

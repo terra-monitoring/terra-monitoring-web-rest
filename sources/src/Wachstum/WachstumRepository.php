@@ -95,7 +95,7 @@ class WachstumRepository
      * @param $key string key name.
      * @return int|null PDO::PARAM_* constant|null if not known.
      */
-    private function getType($key)
+    public function getType($key)
     {
         switch ($key) {
             case "gewicht":

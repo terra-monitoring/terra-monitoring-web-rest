@@ -5,6 +5,7 @@ namespace TerraMonitoring\Web\Wachstum;
 
 use Doctrine\DBAL\Connection;
 use PDO;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use TerraMonitoring\Web\Entity\Wachstum;
 
 class WachstumRepository
@@ -69,6 +70,35 @@ class WachstumRepository
 
         return $allWachstum;
     }
+
+    /**
+     * Get data between dates.
+     * @param $from string
+     * @param $to string
+     * @return \TerraMonitoring\Web\Entity\Wachstum[]
+     * @throws \Exception
+     */
+    function getBetween($from, $to)
+    {
+        $wachstumArray = $this->connection->createQueryBuilder()
+            ->select("*")
+            ->from($this->getTableName())
+            ->where("date BETWEEN '$from' AND '$to'")
+            ->execute()
+            ->fetchAll();
+
+        if( false === $wachstumArray ) {
+            throw new \Exception( "No data found in this time spawn." );
+        }
+
+        $allWachstum = [];
+        foreach ($wachstumArray as $row) {
+            $allWachstum[] = Wachstum::create($row);
+        }
+
+        return $allWachstum;
+    }
+
 
     function save(Wachstum $object)
     {

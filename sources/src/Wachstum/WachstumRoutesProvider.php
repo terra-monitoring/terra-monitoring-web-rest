@@ -24,6 +24,7 @@ class WachstumRoutesProvider implements ControllerProviderInterface
         /**
          * 
          * @SWG\Tag(name="wachstum", description="wachstums daten")
+         *
          */
 
         /**
@@ -34,6 +35,33 @@ class WachstumRoutesProvider implements ControllerProviderInterface
          * )
          */
         $controllers->get('/', 'service.wachstum:readAll');
+
+        /**
+         * @SWG\Get(
+         *     path="/wachstum/{from}/{to}",
+         *     tags={"wachstum"},
+         *     @SWG\Parameter(
+         *          name="from",
+         *          in="path",
+         *          description="Date from",
+         *          required=true,
+         *          type="string"
+         *   ),
+         *   @SWG\Parameter(
+         *           name="to",
+         *          in="path",
+         *          description="Date to",
+         *          required=true,
+         *          type="string"
+         *   ),
+         *     @SWG\Response(
+         *         response="200",
+         *         description="Wachstum an dem gewählten Datum",
+         *          @SWG\Schema(ref="#/definitions/wachstum")
+         *     )
+         * )
+         */
+        $controllers->get('/{from}/{to}', 'service.wachstum:getBetween');
         /**
          * @SWG\Get(
          *     path="/wachstum/{date}",

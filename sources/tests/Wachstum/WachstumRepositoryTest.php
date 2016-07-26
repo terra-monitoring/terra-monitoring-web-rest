@@ -254,4 +254,41 @@ class WachstumRepositoryTest extends \PHPUnit_Framework_TestCase
             array("invalid_attribute", null)
         ];
     }
+
+    /**
+     * Test if database query is build correctly and Exception is thrown if no data found.
+     * @test
+     * @expectedException \Exception
+     * @expectedExceptionMessage No data found in this time spawn.
+     */
+    public function testGetBetween() {
+        $from = '2016-07-01';
+        $to = '2016-07-31';
+
+        $statmentMock = self::getMockBuilder('Doctrine\DBAL\Driver\Statement')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+        $this->mockQueryBuilder->expects(self::once())
+            ->method('select')
+            ->with('*')
+            ->willReturn($this->mockQueryBuilder);
+        $this->mockQueryBuilder->expects(self::once())
+            ->method('from')
+            ->with('wachstum')
+            ->willReturn($this->mockQueryBuilder);
+        $this->mockQueryBuilder->expects(self::once())
+            ->method('where')
+            ->with("date BETWEEN '$from' AND '$to'")
+            ->willReturn($this->mockQueryBuilder);
+        $this->mockQueryBuilder->expects(self::once())
+            ->method('execute')
+            ->willReturn($statmentMock);
+        $statmentMock->expects(self::once())
+            ->method('fetchAll')
+            ->willReturn(false)
+        ;
+
+        $this->repository->getBetween($from, $to);
+    }
 }

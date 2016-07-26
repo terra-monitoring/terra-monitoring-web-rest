@@ -97,4 +97,8 @@ class WachstumService
         return new JsonResponse( $max );
     }
 
+    public function getBetween($from, $to) {
+        return new JsonResponse($this->wachstumRepository->getBetween($from, $to));
+    }
+
 }

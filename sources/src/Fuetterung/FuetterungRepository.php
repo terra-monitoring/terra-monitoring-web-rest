@@ -91,6 +91,34 @@ class FuetterungRepository
     }
 
     /**
+     * Get data between dates.
+     * @param $from string
+     * @param $to string
+     * @return \TerraMonitoring\Web\Entity\Wachstum[]
+     * @throws \Exception
+     */
+    function getBetween($from, $to)
+    {
+        $wachstumArray = $this->connection->createQueryBuilder()
+            ->select("*")
+            ->from($this->getTableName())
+            ->where("date BETWEEN '$from' AND '$to'")
+            ->execute()
+            ->fetchAll();
+
+        if( false === $wachstumArray ) {
+            throw new \Exception( "No data found in this time spawn." );
+        }
+
+        $allWachstum = [];
+        foreach ($wachstumArray as $row) {
+            $allWachstum[] = Fuetterung::create($row);
+        }
+
+        return $allWachstum;
+    }
+
+    /**
      * Retrieve database type.
      * @param $key string key name.
      * @return int|null PDO::PARAM_* constant|null if not known.

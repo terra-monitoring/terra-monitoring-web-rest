@@ -56,7 +56,7 @@ class WachstumRoutesProvider implements ControllerProviderInterface
          *   ),
          *     @SWG\Response(
          *         response="200",
-         *         description="Wachstum an dem gewählten Datum",
+         *         description="Collection von Wachstum im Zeitraum",
          *          @SWG\Schema(ref="#/definitions/wachstum")
          *     )
          * )

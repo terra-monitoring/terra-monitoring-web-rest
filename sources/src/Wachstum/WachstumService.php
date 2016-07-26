@@ -88,6 +88,9 @@ class WachstumService
         return new JsonResponse($wachstum);
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function max() {
         $max = $this->wachstumRepository->getMax();
         if ( false === $max ) {
@@ -97,6 +100,11 @@ class WachstumService
         return new JsonResponse( $max );
     }
 
+    /**
+     * @param $from
+     * @param $to
+     * @return JsonResponse
+     */
     public function getBetween($from, $to) {
         return new JsonResponse($this->wachstumRepository->getBetween($from, $to));
     }

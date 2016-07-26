@@ -99,4 +99,13 @@ class FuetterungService
             $this->fuetterungRepository->totalConsum()
         );
     }
+
+    /**
+     * @param $from
+     * @param $to
+     * @return JsonResponse
+     */
+    public function getBetween($from, $to) {
+        return new JsonResponse($this->fuetterungRepository->getBetween($from, $to));
+    }
 }

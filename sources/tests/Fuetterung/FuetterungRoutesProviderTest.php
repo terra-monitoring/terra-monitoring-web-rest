@@ -35,6 +35,9 @@ class FuetterungRoutesProviderTest extends \PHPUnit_Framework_TestCase
         $controllerFactory->get('/totalConsum', 'service.fuetterung:totalConsum')
             ->shouldBeCalled()
         ;
+        $controllerFactory->get('/{from}/{to}', 'service.fuetterung:getBetween')
+            ->shouldBeCalled()
+        ;
         $app                        = new Application();
         $app['controllers_factory'] = $controllerFactory->reveal();
         $provider->connect($app);

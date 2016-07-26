@@ -99,7 +99,6 @@ class WachstumRepository
         return $allWachstum;
     }
 
-
     function save(Wachstum $object)
     {
         $wachstum_array = $object->jsonSerialize();

@@ -23,7 +23,8 @@ class WachstumRoutesProviderTest extends \PHPUnit_Framework_TestCase
         $provider = new WachstumRoutesProvider();
         /** @var ControllerCollection $controllerFactory */
         $controllerFactory = $this->prophesize(ControllerCollection::class);
-        $controllerFactory->get('/', 'service.wachstum:readAll')->shouldBeCalled();
+        $controllerFactory->get('/', 'service.wachstum:readAll')
+            ->shouldBeCalled();
         $controllerFactory->get('/{date}', 'service.wachstum:read')
             ->shouldBeCalled()
         ;

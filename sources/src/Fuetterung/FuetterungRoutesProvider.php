@@ -44,6 +44,34 @@ class FuetterungRoutesProvider implements ControllerProviderInterface
          * )
          */
         $controllers->get('/', 'service.fuetterung:readAll');
+
+        /**
+         * @SWG\Get(
+         *     path="/fuetterung/{from}/{to}",
+         *     tags={"fuetterung"},
+         *     @SWG\Parameter(
+         *          name="from",
+         *          in="path",
+         *          description="Date from",
+         *          required=true,
+         *          type="string"
+         *   ),
+         *   @SWG\Parameter(
+         *          name="to",
+         *          in="path",
+         *          description="Date to",
+         *          required=true,
+         *          type="string"
+         *   ),
+         *     @SWG\Response(
+         *         response="200",
+         *         description="Collection von Fuetterungen im Zeitraum",
+         *          @SWG\Schema(ref="#/definitions/fuetterung")
+         *     )
+         * )
+         */
+        $controllers->get('/{from}/{to}', 'service.fuetterung:getBetween');
+
         /**
          * @SWG\Get(
          *     path="/fuetterung/{date}",

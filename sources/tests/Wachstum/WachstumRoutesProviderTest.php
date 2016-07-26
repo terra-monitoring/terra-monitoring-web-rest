@@ -36,6 +36,9 @@ class WachstumRoutesProviderTest extends \PHPUnit_Framework_TestCase
         $controllerFactory->get('/gewicht/max', 'service.wachstum:max')
             ->shouldBeCalled()
         ;
+        $controllerFactory->get('/{from}/{to}', 'service.wachstum:getBetween')
+            ->shouldBeCalled()
+        ;
         $app                        = new Application();
         $app['controllers_factory'] = $controllerFactory->reveal();
         $provider->connect($app);

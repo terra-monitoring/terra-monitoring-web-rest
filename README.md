@@ -1,7 +1,8 @@
-# terra-monitoring-web [![codecov](https://codecov.io/gh/terra-monitoring/terra-monitoring-web-rest/branch/master/graph/badge.svg)](https://codecov.io/gh/terra-monitoring/terra-monitoring-web-rest)
+# terra-monitoring-web-rest [![codecov](https://codecov.io/gh/terra-monitoring/terra-monitoring-web-rest/branch/master/graph/badge.svg)](https://codecov.io/gh/terra-monitoring/terra-monitoring-web-rest)
 ## Autoren
 - Andre Trogisch
 - Christian Zöller
+
 ## Installation
 - `git clone https://github.com/terra-monitoring/terra-monitoring-web-rest.git`
 - `cd terra-monitoring-web-rest`

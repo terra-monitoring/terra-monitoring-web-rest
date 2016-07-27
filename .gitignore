@@ -9,14 +9,13 @@ nbproject/
 # default vagrant web directory
 html/
 # puphpet custom config
-puphpet/
+puphpet/config-custom.yaml
 # composer vendor files
 sources/vendor/
 # locale phpunit config
 sources/phpunit.xml
 # code-coverage output
 coverage/
-Vagrantfile
 *.iml
 pimple.json
 *.db

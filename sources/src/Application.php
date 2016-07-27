@@ -61,7 +61,6 @@ class Application extends Silex
             ),
         ));
         $app['databaseSetup'] = $app->share(function () use ($app) {
-            // Retrieve the db instance and create an instance of myClass
             return new DatabaseSetup($app['db']);
         });
         $app->register(new MonologServiceProvider(), array(

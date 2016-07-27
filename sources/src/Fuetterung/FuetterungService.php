@@ -42,13 +42,13 @@ class FuetterungService
     /**
      * @param date
      *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return Response
      */
     public function read($date)
     {
         $byId = $this->fuetterungRepository->getById($date);
         if (null === $byId) {
-            return new Response("Not Found", 404);
+            return new Response("Not Found", Response::HTTP_NOT_FOUND);
         }
 
         return new JsonResponse($byId);
@@ -64,7 +64,7 @@ class FuetterungService
         $data = $request->request->all();
         $fuetterung = Fuetterung::create($data);
         $this->fuetterungRepository->save($fuetterung);
-        return new JsonResponse($fuetterung, 201);
+        return new JsonResponse($fuetterung, Response::HTTP_CREATED);
     }
 
     /**
@@ -76,7 +76,7 @@ class FuetterungService
     public function update($date, Request $request)
     {
         if (false === $this->fuetterungRepository->getById($date)) {
-            throw new Exception('Fuetterung not found', 404);
+            throw new Exception('Fuetterung not found', Response::HTTP_NOT_FOUND);
         }
 
         $data = $request->request->all();
@@ -100,9 +100,10 @@ class FuetterungService
     }
 
     /**
+     * Get data in time spawn.
      * @param $from
      * @param $to
-     * @return JsonResponse
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function getBetween($from, $to)
     {

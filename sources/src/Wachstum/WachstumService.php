@@ -42,7 +42,7 @@ class WachstumService
     /**
      * @param date
      *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return Response
      */
     public function read($date)
     {
@@ -64,7 +64,7 @@ class WachstumService
         $data = $request->request->all();
         $wachstum = Wachstum::create($data);
         $this->wachstumRepository->save($wachstum);
-        return new JsonResponse($wachstum, 201);
+        return new JsonResponse($wachstum, Response::HTTP_CREATED);
     }
 
     /**
@@ -76,7 +76,7 @@ class WachstumService
     public function update($date, Request $request)
     {
         if (null === $this->wachstumRepository->getById($date)) {
-            throw new Exception('Wachstum not found', 404);
+            throw new Exception('Wachstum not found', Response::HTTP_NOT_FOUND);
         }
 
         $data = $request->request->all();
@@ -88,22 +88,26 @@ class WachstumService
     }
 
     /**
+     * Get Wachstum with maximum Gewicht.
+     *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function max()
     {
         $max = $this->wachstumRepository->getMax();
         if (false === $max) {
-            throw new Exception('No Max Wachstum found', 404);
+            throw new Exception('No Max Wachstum found', Response::HTTP_NOT_FOUND);
         }
 
         return new JsonResponse($max);
     }
 
     /**
+     * Get data in time spawn.
      * @param $from
      * @param $to
-     * @return JsonResponse
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function getBetween($from, $to)
     {

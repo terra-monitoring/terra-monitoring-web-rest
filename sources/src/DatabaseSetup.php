@@ -40,7 +40,7 @@ class DatabaseSetup
         $finder->in(__DIR__);
         $finder->name('schema.sql');
 
-        foreach( $finder as $file ) {
+        foreach ($finder as $file) {
             $content = $file->getContents();
 
             try {

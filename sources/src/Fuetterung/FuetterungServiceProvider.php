@@ -24,6 +24,7 @@ class FuetterungServiceProvider implements ServiceProviderInterface
         });
         $app->mount('/fuetterung', new FuetterungRoutesProvider());
     }
+
     /** {@inheritdoc} */
     public function boot(Application $app)
     {

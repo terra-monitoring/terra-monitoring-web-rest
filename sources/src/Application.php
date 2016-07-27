@@ -21,8 +21,8 @@ use TerraMonitoring\Web\Wachstum\WachstumServiceProvider;
  * @package TerraMonitoring\Web
  * @SWG\Info(title="Terrarium REST API", version="0.1")
  */
-
-class Application extends Silex {
+class Application extends Silex
+{
 
     public function __construct(array $values = [])
     {
@@ -60,16 +60,16 @@ class Application extends Silex {
                 'path' => __DIR__ . '/einstein.db',
             ),
         ));
-        $app['databaseSetup'] = $app->share(function() use ($app) {
+        $app['databaseSetup'] = $app->share(function () use ($app) {
             // Retrieve the db instance and create an instance of myClass
             return new DatabaseSetup($app['db']);
         });
         $app->register(new MonologServiceProvider(), array(
-            'monolog.logfile' => __DIR__.'/log.log',
+            'monolog.logfile' => __DIR__ . '/log.log',
         ));
         $this->register(new LogServiceProvider());
-        $this->register(new FuetterungServiceProvider() );
-        $this->register(new WachstumServiceProvider() );
+        $this->register(new FuetterungServiceProvider());
+        $this->register(new WachstumServiceProvider());
         $this->register(new ErrorProvider());
     }
 }

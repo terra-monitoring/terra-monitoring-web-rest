@@ -31,8 +31,6 @@ class Wachstum implements \JsonSerializable
     private $laenge;
 
 
-
-
     /**
      * Wachstum constructor.
      * @param date
@@ -42,7 +40,8 @@ class Wachstum implements \JsonSerializable
         $this->date = $date;
     }
 
-    public static function create(array $data) {
+    public static function create(array $data)
+    {
         $wachstumObj = new Wachstum($data['date']);
         $wachstumObj
             ->setGewicht($data['gewicht'])
@@ -51,11 +50,13 @@ class Wachstum implements \JsonSerializable
     }
 
     /**
-     * @return mixed
+     * @param mixed $laenge
+     * @return $this Wachstum
      */
-    public function getDate()
+    public function setLaenge($laenge)
     {
-        return $this->date;
+        $this->laenge = $laenge;
+        return $this;
     }
 
     /**
@@ -69,23 +70,20 @@ class Wachstum implements \JsonSerializable
     }
 
     /**
-     * @param mixed $laenge
-     * @return $this Wachstum
+     * @return mixed
      */
-    public function setLaenge($laenge)
+    public function getDate()
     {
-        $this->laenge = $laenge;
-        return $this;
+        return $this->date;
     }
-    
 
     public function jsonSerialize()
     {
         return [
-            'date'     => $this->date,
+            'date' => $this->date,
             'gewicht' => $this->gewicht,
             'laenge' => $this->laenge,
-            
+
         ];
     }
 }

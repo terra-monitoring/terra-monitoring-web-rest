@@ -9,7 +9,6 @@
 namespace TerraMonitoring\Web\Fuetterung;
 
 
-use Silex\Application;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -105,7 +104,8 @@ class FuetterungService
      * @param $to
      * @return JsonResponse
      */
-    public function getBetween($from, $to) {
+    public function getBetween($from, $to)
+    {
         return new JsonResponse($this->fuetterungRepository->getBetween($from, $to));
     }
 }

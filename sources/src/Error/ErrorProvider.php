@@ -27,6 +27,7 @@ class ErrorProvider implements ServiceProviderInterface
         $dispatcher = $app['dispatcher'];
         $dispatcher->addSubscriber($app['subscriber.kernel_excption']);
     }
+
     /** {@inheritdoc} */
     public function boot(Application $app)
     {

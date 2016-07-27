@@ -9,7 +9,6 @@
 namespace TerraMonitoring\Web\Wachstum;
 
 
-use Silex\Application;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -77,7 +76,7 @@ class WachstumService
     public function update($date, Request $request)
     {
         if (null === $this->wachstumRepository->getById($date)) {
-             throw new Exception('Wachstum not found', 404);
+            throw new Exception('Wachstum not found', 404);
         }
 
         $data = $request->request->all();
@@ -91,13 +90,14 @@ class WachstumService
     /**
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function max() {
+    public function max()
+    {
         $max = $this->wachstumRepository->getMax();
-        if ( false === $max ) {
+        if (false === $max) {
             throw new Exception('No Max Wachstum found', 404);
         }
 
-        return new JsonResponse( $max );
+        return new JsonResponse($max);
     }
 
     /**
@@ -105,7 +105,8 @@ class WachstumService
      * @param $to
      * @return JsonResponse
      */
-    public function getBetween($from, $to) {
+    public function getBetween($from, $to)
+    {
         return new JsonResponse($this->wachstumRepository->getBetween($from, $to));
     }
 

@@ -24,6 +24,7 @@ class WachstumServiceProvider implements ServiceProviderInterface
         });
         $app->mount('/wachstum', new WachstumRoutesProvider());
     }
+
     /** {@inheritdoc} */
     public function boot(Application $app)
     {

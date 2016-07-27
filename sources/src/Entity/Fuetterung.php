@@ -50,8 +50,6 @@ class Fuetterung implements \JsonSerializable
      */
     private $bemerkung;
 
-
-
     /**
      * Fuetterung constructor.
      * @param date
@@ -61,7 +59,8 @@ class Fuetterung implements \JsonSerializable
         $this->date = $date;
     }
 
-    public static function create(array $data) {
+    public static function create(array $data)
+    {
         $fuetterungObj = new Fuetterung($data['date']);
         $fuetterungObj
             ->setFutterId($data['futter_id'])
@@ -74,50 +73,12 @@ class Fuetterung implements \JsonSerializable
     }
 
     /**
-     * @return mixed
-     */
-    public function getDate()
-    {
-        return $this->date;
-    }
-
-    /**
-     * @param mixed $futter_id
+     * @param mixed $bemerkung
      * @return $this Fuetterung
      */
-    public function setFutterId($futter_id)
+    public function setBemerkung($bemerkung)
     {
-        $this->futter_id = $futter_id;
-        return $this;
-    }
-
-    /**
-     * @param mixed $menge
-     * @return $this Fuetterung
-     */
-    public function setMenge($menge)
-    {
-        $this->menge = $menge;
-        return $this;
-    }
-
-    /**
-     * @param mixed $vitamin
-     * @return $this Fuetterung
-     */
-    public function setVitamin($vitamin)
-    {
-        $this->vitamin = $vitamin;
-        return $this;
-    }
-
-    /**
-     * @param mixed $calcium
-     * @return $this Fuetterung
-     */
-    public function setCalcium($calcium)
-    {
-        $this->calcium = $calcium;
+        $this->bemerkung = $bemerkung;
         return $this;
     }
 
@@ -132,19 +93,57 @@ class Fuetterung implements \JsonSerializable
     }
 
     /**
-     * @param mixed $bemerkung
+     * @param mixed $calcium
      * @return $this Fuetterung
      */
-    public function setBemerkung($bemerkung)
+    public function setCalcium($calcium)
     {
-        $this->bemerkung = $bemerkung;
+        $this->calcium = $calcium;
         return $this;
+    }
+
+    /**
+     * @param mixed $vitamin
+     * @return $this Fuetterung
+     */
+    public function setVitamin($vitamin)
+    {
+        $this->vitamin = $vitamin;
+        return $this;
+    }
+
+    /**
+     * @param mixed $menge
+     * @return $this Fuetterung
+     */
+    public function setMenge($menge)
+    {
+        $this->menge = $menge;
+        return $this;
+    }
+
+    /**
+     * @param mixed $futter_id
+     * @return $this Fuetterung
+     */
+    public function setFutterId($futter_id)
+    {
+        $this->futter_id = $futter_id;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDate()
+    {
+        return $this->date;
     }
 
     public function jsonSerialize()
     {
         return [
-            'date'     => $this->date,
+            'date' => $this->date,
             'futter_id' => $this->futter_id,
             'menge' => $this->menge,
             'vitamin' => $this->vitamin,

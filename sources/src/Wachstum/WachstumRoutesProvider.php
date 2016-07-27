@@ -22,7 +22,7 @@ class WachstumRoutesProvider implements ControllerProviderInterface
         /** @var ControllerCollection $controllers */
         $controllers = $app['controllers_factory'];
         /**
-         * 
+         *
          * @SWG\Tag(name="wachstum", description="Wachstumsdaten verwalten")
          *
          */

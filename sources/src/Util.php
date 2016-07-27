@@ -6,7 +6,9 @@
  * Time: 17:37
  */
 namespace TerraMonitoring\Web;
+
 use Symfony\Component\HttpFoundation\Request;
+
 class Util
 {
     /**

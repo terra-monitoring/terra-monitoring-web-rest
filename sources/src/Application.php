@@ -19,15 +19,9 @@ use TerraMonitoring\Web\Wachstum\WachstumServiceProvider;
 
 /**
  * @package TerraMonitoring\Web
- * @SWG\Info(title="My First API", version="0.1")
+ * @SWG\Info(title="Terrarium REST API", version="0.1")
  */
 
-/**
- * @SWG\Get(
- *     path="/v1/resource.json",
- *     @SWG\Response(response="200", description="An example resource")
- * )
- */
 class Application extends Silex {
 
     public function __construct(array $values = [])
@@ -77,6 +71,5 @@ class Application extends Silex {
         $this->register(new FuetterungServiceProvider() );
         $this->register(new WachstumServiceProvider() );
         $this->register(new ErrorProvider());
-
     }
 }

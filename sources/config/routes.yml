@@ -6,6 +6,10 @@ hello:
   path: /hello/{name}
   defaults: { _controller: 'TerraMonitoring\Web\Controller\AppController::helloAction' }
 
+listroutes:
+  path: /listroutes
+  defaults: { _controller: 'TerraMonitoring\Web\Controller\AppController::listRoutsAction' }
+
 blog:
   prefix: /stats
   resource: routes_stats.yml

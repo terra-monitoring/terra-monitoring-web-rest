@@ -178,11 +178,11 @@ class WachstumRepository
     public function getMax()
     {
         $builder = $this->connection
-        ->createQueryBuilder()
-        ->select("*")
-        ->from($this->getTableName())
-        ->orderBy("gewicht", "DESC")
-        ->setMaxResults(1)
+            ->createQueryBuilder()
+            ->select("*")
+            ->from($this->getTableName())
+            ->orderBy("gewicht", "DESC")
+            ->setMaxResults(1)
         ;
 
         $data = $builder->execute()->fetch();

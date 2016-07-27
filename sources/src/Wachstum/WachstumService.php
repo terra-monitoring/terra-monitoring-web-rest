@@ -89,7 +89,7 @@ class WachstumService
     }
 
     /**
-     * @return JsonResponse
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function max() {
         $max = $this->wachstumRepository->getMax();

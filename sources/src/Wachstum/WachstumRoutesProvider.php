@@ -23,7 +23,7 @@ class WachstumRoutesProvider implements ControllerProviderInterface
         $controllers = $app['controllers_factory'];
         /**
          * 
-         * @SWG\Tag(name="wachstum", description="wachstums daten")
+         * @SWG\Tag(name="wachstum", description="Wachstumsdaten verwalten")
          *
          */
 
@@ -31,15 +31,40 @@ class WachstumRoutesProvider implements ControllerProviderInterface
          * @SWG\Get(
          *     path="/wachstum/",
          *     tags={"wachstum"},
-         *     @SWG\Response(response="200", description="Alle Wachstumsdaten")
+         *     summary="Alle Wachstümer",
+         *     @SWG\Response(
+         *         response=200,
+         *         description="Alle Wachstumsdaten",
+         *         @SWG\Schema(
+         *             type="array",
+         *             @SWG\Items(ref="#/definitions/wachstum")
+         *         )
+         *     )
          * )
          */
         $controllers->get('/', 'service.wachstum:readAll');
+
+
+        /**
+         * @SWG\Get(
+         *     path="/wachstum/gewicht/max",
+         *     tags={"wachstum"},
+         *     summary="Wachstum mit höchstem Gewicht",
+         *     @SWG\Schema(ref="#/definitions/wachstum"),
+         *     @SWG\Response(
+         *         response="200",
+         *         description="Maximum des Gewichts",
+         *         @SWG\Schema(ref="#/definitions/wachstum")
+         *     )
+         * )
+         */
+        $controllers->get('/gewicht/max', 'service.wachstum:max');
 
         /**
          * @SWG\Get(
          *     path="/wachstum/{from}/{to}",
          *     tags={"wachstum"},
+         *     summary="Wachstümer im Zeitraum",
          *     @SWG\Parameter(
          *          name="from",
          *          in="path",
@@ -54,11 +79,14 @@ class WachstumRoutesProvider implements ControllerProviderInterface
          *          required=true,
          *          type="string"
          *   ),
-         *     @SWG\Response(
-         *         response="200",
-         *         description="Collection von Wachstum im Zeitraum",
-         *          @SWG\Schema(ref="#/definitions/wachstum")
-         *     )
+         *   @SWG\Response(
+         *         response=200,
+         *         description="Wachstümer im Zeitraum",
+         *         @SWG\Schema(
+         *             type="array",
+         *             @SWG\Items(ref="#/definitions/wachstum")
+         *         )
+         *   )
          * )
          */
         $controllers->get('/{from}/{to}', 'service.wachstum:getBetween');
@@ -66,6 +94,7 @@ class WachstumRoutesProvider implements ControllerProviderInterface
          * @SWG\Get(
          *     path="/wachstum/{date}",
          *     tags={"wachstum"},
+         *     summary="Wachstum an dem gewählten Datum",
          *     @SWG\Parameter(ref="#/parameters/date"),
          *     @SWG\Response(
          *         response="200",
@@ -79,6 +108,7 @@ class WachstumRoutesProvider implements ControllerProviderInterface
          * @SWG\Post(
          *     tags={"wachstum"},
          *     path="/wachstum/",
+         *     summary="Wachstum erstellen",
          *     @SWG\Parameter(name="wachstum", in="body", @SWG\Schema(ref="#/definitions/wachstum")),
          *     @SWG\Response(
          *         response="201",
@@ -92,6 +122,7 @@ class WachstumRoutesProvider implements ControllerProviderInterface
          * @SWG\Put(
          *     tags={"wachstum"},
          *     path="/wachstum/{date}",
+         *     summary="Wachstum ändern",
          *     @SWG\Parameter(
          *         name="date",
          *         in="path",
@@ -117,19 +148,6 @@ class WachstumRoutesProvider implements ControllerProviderInterface
          */
         $controllers->put('/{date}', 'service.wachstum:update');
 
-        /**
-         * @SWG\Get(
-         *     path="/wachstum/gewicht/max",
-         *     tags={"wachstum"},
-         *     @SWG\Schema(ref="#/definitions/wachstum"),
-         *     @SWG\Response(
-         *         response="200",
-         *         description="Maximum des Gewichts",
-         *         @SWG\Schema(ref="#/definitions/wachstum")
-         *     )
-         * )
-         */
-        $controllers->get('/gewicht/max', 'service.wachstum:max');
         return $controllers;
     }
 }

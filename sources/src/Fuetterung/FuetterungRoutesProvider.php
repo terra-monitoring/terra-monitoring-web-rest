@@ -30,17 +30,25 @@ class FuetterungRoutesProvider implements ControllerProviderInterface
          * @SWG\Get(
          *     path="/fuetterung/totalConsum",
          *     tags={"fuetterung"},
-         *     @SWG\Response(response="200", description="Alle Fütterungen")
+         *     summary="Futterverbrauch bestimmen",
+         *     @SWG\Response(response="200", description="Bisheriger Futterverbrauch")
          * )
          */
         $controllers->get('/totalConsum', 'service.fuetterung:totalConsum');
-
 
         /**
          * @SWG\Get(
          *     path="/fuetterung/",
          *     tags={"fuetterung"},
-         *     @SWG\Response(response="200", description="Alle Fütterungen")
+         *     summary="Alle Fütterungen",
+         *     @SWG\Response(
+         *         response=200,
+         *         description="Alle Fütterungen",
+         *         @SWG\Schema(
+         *             type="array",
+         *             @SWG\Items(ref="#/definitions/fuetterung")
+         *         )
+         *     )
          * )
          */
         $controllers->get('/', 'service.fuetterung:readAll');
@@ -49,6 +57,7 @@ class FuetterungRoutesProvider implements ControllerProviderInterface
          * @SWG\Get(
          *     path="/fuetterung/{from}/{to}",
          *     tags={"fuetterung"},
+         *     summary="Fütterungen im Zeitraum",
          *     @SWG\Parameter(
          *          name="from",
          *          in="path",
@@ -64,9 +73,12 @@ class FuetterungRoutesProvider implements ControllerProviderInterface
          *          type="string"
          *   ),
          *     @SWG\Response(
-         *         response="200",
-         *         description="Collection von Fuetterungen im Zeitraum",
-         *          @SWG\Schema(ref="#/definitions/fuetterung")
+         *         response=200,
+         *         description="Fuetterungen im Zeitraum",
+         *         @SWG\Schema(
+         *             type="array",
+         *             @SWG\Items(ref="#/definitions/fuetterung")
+         *         )
          *     )
          * )
          */
@@ -76,6 +88,7 @@ class FuetterungRoutesProvider implements ControllerProviderInterface
          * @SWG\Get(
          *     path="/fuetterung/{date}",
          *     tags={"fuetterung"},
+         *     summary="Fütterung an dem gewählten Datum",
          *     @SWG\Parameter(ref="#/parameters/date"),
          *     @SWG\Response(
          *         response="200",
@@ -89,10 +102,11 @@ class FuetterungRoutesProvider implements ControllerProviderInterface
          * @SWG\Post(
          *     tags={"fuetterung"},
          *     path="/fuetterung/",
+         *     summary="Fütterung erstellen",
          *     @SWG\Parameter(name="fuetterung", in="body", @SWG\Schema(ref="#/definitions/fuetterung")),
          *     @SWG\Response(
          *         response="201",
-         *         description="neuer Fütterungseintrag"
+         *         description="neue Fütterung"
          *     )
          * ))
          */
@@ -102,6 +116,7 @@ class FuetterungRoutesProvider implements ControllerProviderInterface
          * @SWG\Put(
          *     tags={"fuetterung"},
          *     path="/fuetterung/{date}",
+         *     summary="Fütterung ändern",
          *     @SWG\Parameter(
          *         name="date",
          *         in="path",
@@ -119,7 +134,7 @@ class FuetterungRoutesProvider implements ControllerProviderInterface
          *     @SWG\Schema(ref="#/definitions/fuetterung"),
          *     @SWG\Response(
          *         response="200",
-         *         description="geänderter Fütterungseintrag",
+         *         description="geänderte Fütterung",
          *         @SWG\Schema(ref="#/definitions/fuetterung")
          *     ),
          *     @SWG\Response(response=404, description="Fuetterung not found")

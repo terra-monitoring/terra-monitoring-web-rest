@@ -80,6 +80,8 @@ server:
     packages:
         - vim
         - htop
+        - sqlite
+        - php5-sqlite
 users_groups:
     install: '1'
     groups: {  }
@@ -119,9 +121,9 @@ nginx:
     upstreams: {  }
     vhosts:
         nxv_1n8x9j4za1ux:
-            server_name: web-api.vm
+            server_name: terra.vm
             server_aliases:
-                - www.web-api.vm
+                - www.terra.vm
             www_root: /var/www/sources/web
             listen_port: '80'
             index_files:

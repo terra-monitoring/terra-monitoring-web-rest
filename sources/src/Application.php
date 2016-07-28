@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use TerraMonitoring\Web\Error\ErrorProvider;
 use TerraMonitoring\Web\Fuetterung\FuetterungServiceProvider;
 use TerraMonitoring\Web\Log\LogServiceProvider;
+use TerraMonitoring\Web\QueryResponse\QueryResponseServiceProvider;
 use TerraMonitoring\Web\Wachstum\WachstumServiceProvider;
 
 /**
@@ -69,6 +70,7 @@ class Application extends Silex
         $this->register(new LogServiceProvider());
         $this->register(new FuetterungServiceProvider());
         $this->register(new WachstumServiceProvider());
+        $this->register(new QueryResponseServiceProvider());
         $this->register(new ErrorProvider());
     }
 }
